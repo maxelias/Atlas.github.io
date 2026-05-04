@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classes — Atlas Gym</title>
+  <meta name="description" content="40+ weekly classes including strength, HIIT, boxing, yoga, and cardio. Filter by type and find your class." />
+  <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" type="image/x-icon" href="https://file.garden/aeSpG6iUoRzyQ8ca/Screenshot%202026-04-27%20at%2011.19.57%E2%80%AFam.png">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo">ATL<span>A</span>S</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="classes.html" class="active">Classes</a></li>
+      <li><a href="trainers.html">Trainers</a></li>
+      <li><a href="facilities.html">Facilities</a></li>
+      <li><a href="results.html">Results</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="login.html" class="nav__login">Member Login</a>
+      <a href="trial.html" class="btn btn-primary">Free Trial</a>
+    </div>
+    <button class="nav__toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav__mobile">
+  <a href="index.html">Home</a><a href="classes.html">Classes</a><a href="trainers.html">Trainers</a>
+  <a href="facilities.html">Facilities</a><a href="results.html">Results</a><a href="membership.html">Membership</a>
+  <a href="contact.html">Contact</a><a href="faq.html">FAQ</a><a href="login.html">Member Login</a>
+  <a href="trial.html" class="btn btn-primary">Start Free Trial</a>
+</div>
+
+<section class="page-hero">
+  <div class="container page-hero__content">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> Classes</div>
+    <h1>CLASSES</h1>
+    <p>40+ sessions every week. Find what works for you, book online, and show up.</p>
+  </div>
+</section>
+
+<!-- Timetable -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">Weekly Schedule</span>
+      <h2 class="section-title">This week's<br>timetable.</h2>
+      <p class="section-subtitle">Filter by class type or browse by day. All classes are bookable via the member app or at the front desk.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="timetable-filters reveal">
+      <button class="filter-btn active" data-filter="all">All Classes</button>
+      <button class="filter-btn" data-filter="strength">💪 Strength</button>
+      <button class="filter-btn" data-filter="hiit">🔥 HIIT</button>
+      <button class="filter-btn" data-filter="cardio">🏃 Cardio</button>
+      <button class="filter-btn" data-filter="boxing">🥊 Boxing</button>
+      <button class="filter-btn" data-filter="yoga">🧘 Yoga</button>
+      <button class="filter-btn" data-filter="recovery">💆 Recovery</button>
+    </div>
+
+    <!-- Day Tabs -->
+    <div class="day-tabs">
+      <button class="day-tab active" data-day="monday">Monday</button>
+      <button class="day-tab" data-day="tuesday">Tuesday</button>
+      <button class="day-tab" data-day="wednesday">Wednesday</button>
+      <button class="day-tab" data-day="thursday">Thursday</button>
+      <button class="day-tab" data-day="friday">Friday</button>
+      <button class="day-tab" data-day="saturday">Saturday</button>
+      <button class="day-tab" data-day="sunday">Sunday</button>
+    </div>
+
+    <!-- Monday -->
+    <div class="schedule" data-day="monday" style="display:flex;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">6:00<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Morning Powerlifting</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 12 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+      <div class="schedule-item" data-type="cardio">
+        <div class="schedule-item__time">7:30<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Cardio Blast</div>
+          <div class="schedule-item__details">Coach Ria · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--cardio">Cardio</span>
+      </div>
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">9:00<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">HIIT Circuit</div>
+          <div class="schedule-item__details">Coach Sarah · Studio A · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="yoga">
+        <div class="schedule-item__time">12:00<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Lunchtime Yoga</div>
+          <div class="schedule-item__details">Coach Priya · Studio C · 18 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--yoga">Yoga</span>
+      </div>
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">5:30<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Olympic Lifting Foundations</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 10 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">6:30<div class="schedule-item__sub">PM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Evening HIIT</div>
+          <div class="schedule-item__details">Coach Sarah · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="recovery">
+        <div class="schedule-item__time">7:30<div class="schedule-item__sub">PM · 50 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Mobility & Stretch</div>
+          <div class="schedule-item__details">Coach Marcus · Studio C · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--recovery">Recovery</span>
+      </div>
+    </div>
+
+    <!-- Tuesday -->
+    <div class="schedule" data-day="tuesday" style="display:none;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="cardio">
+        <div class="schedule-item__time">6:00<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Spin Class</div>
+          <div class="schedule-item__details">Coach Ria · Spin Studio · 18 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--cardio">Cardio</span>
+      </div>
+      <div class="schedule-item" data-type="boxing">
+        <div class="schedule-item__time">7:30<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Boxing Fundamentals</div>
+          <div class="schedule-item__details">Coach Leo · Studio A · 14 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--boxing">Boxing</span>
+      </div>
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">9:30<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Tabata Burn</div>
+          <div class="schedule-item__details">Coach Sarah · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">5:00<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Barbell Club</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 12 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+      <div class="schedule-item" data-type="boxing">
+        <div class="schedule-item__time">6:30<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Boxing Fitness</div>
+          <div class="schedule-item__details">Coach Leo · Studio A · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--boxing">Boxing</span>
+      </div>
+      <div class="schedule-item" data-type="yoga">
+        <div class="schedule-item__time">7:45<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Evening Yin Yoga</div>
+          <div class="schedule-item__details">Coach Priya · Studio C · 18 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--yoga">Yoga</span>
+      </div>
+    </div>
+
+    <!-- Wednesday -->
+    <div class="schedule" data-day="wednesday" style="display:none;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">6:00<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Strength & Conditioning</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 14 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">7:00<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Metabolic HIIT</div>
+          <div class="schedule-item__details">Coach Sarah · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="cardio">
+        <div class="schedule-item__time">12:00<div class="schedule-item__sub">PM · 30 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Express Cardio</div>
+          <div class="schedule-item__details">Coach Ria · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--cardio">Cardio</span>
+      </div>
+      <div class="schedule-item" data-type="boxing">
+        <div class="schedule-item__time">5:30<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Boxing Intermediate</div>
+          <div class="schedule-item__details">Coach Leo · Studio A · 14 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--boxing">Boxing</span>
+      </div>
+      <div class="schedule-item" data-type="recovery">
+        <div class="schedule-item__time">7:00<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Recovery & Mobility</div>
+          <div class="schedule-item__details">Coach Marcus · Studio C · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--recovery">Recovery</span>
+      </div>
+    </div>
+
+    <!-- Thursday -->
+    <div class="schedule" data-day="thursday" style="display:none;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">6:00<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">HIIT Attack</div>
+          <div class="schedule-item__details">Coach Sarah · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="yoga">
+        <div class="schedule-item__time">9:00<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Power Yoga</div>
+          <div class="schedule-item__details">Coach Priya · Studio C · 18 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--yoga">Yoga</span>
+      </div>
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">5:30<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Powerlifting</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 12 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+      <div class="schedule-item" data-type="boxing">
+        <div class="schedule-item__time">6:30<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Bag Work & Combos</div>
+          <div class="schedule-item__details">Coach Leo · Studio A · 14 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--boxing">Boxing</span>
+      </div>
+    </div>
+
+    <!-- Friday -->
+    <div class="schedule" data-day="friday" style="display:none;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">6:00<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Friday Strength Session</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 14 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">7:30<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Friday HIIT</div>
+          <div class="schedule-item__details">Coach Sarah · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="cardio">
+        <div class="schedule-item__time">12:00<div class="schedule-item__sub">PM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Lunchtime Spin</div>
+          <div class="schedule-item__details">Coach Ria · Spin Studio · 18 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--cardio">Cardio</span>
+      </div>
+      <div class="schedule-item" data-type="recovery">
+        <div class="schedule-item__time">5:30<div class="schedule-item__sub">PM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">End of Week Recovery</div>
+          <div class="schedule-item__details">Coach Marcus · Studio C · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--recovery">Recovery</span>
+      </div>
+    </div>
+
+    <!-- Saturday -->
+    <div class="schedule" data-day="saturday" style="display:none;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="hiit">
+        <div class="schedule-item__time">7:30<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Saturday Big HIIT</div>
+          <div class="schedule-item__details">Coach Sarah · Studio A · 24 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--hiit">HIIT</span>
+      </div>
+      <div class="schedule-item" data-type="boxing">
+        <div class="schedule-item__time">9:00<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Saturday Boxing</div>
+          <div class="schedule-item__details">Coach Leo · Studio A · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--boxing">Boxing</span>
+      </div>
+      <div class="schedule-item" data-type="strength">
+        <div class="schedule-item__time">10:30<div class="schedule-item__sub">AM · 75 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Weekend Powerlifting</div>
+          <div class="schedule-item__details">Coach Jake · Studio A · 12 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--strength">Strength</span>
+      </div>
+    </div>
+
+    <!-- Sunday -->
+    <div class="schedule" data-day="sunday" style="display:none;flex-direction:column;gap:12px;">
+      <div class="schedule-item" data-type="yoga">
+        <div class="schedule-item__time">8:00<div class="schedule-item__sub">AM · 75 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Sunday Yoga Flow</div>
+          <div class="schedule-item__details">Coach Priya · Studio C · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--yoga">Yoga</span>
+      </div>
+      <div class="schedule-item" data-type="recovery">
+        <div class="schedule-item__time">10:00<div class="schedule-item__sub">AM · 60 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Deep Stretch & Recovery</div>
+          <div class="schedule-item__details">Coach Marcus · Studio C · 16 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--recovery">Recovery</span>
+      </div>
+      <div class="schedule-item" data-type="cardio">
+        <div class="schedule-item__time">11:30<div class="schedule-item__sub">AM · 45 min</div></div>
+        <div class="schedule-item__info">
+          <div class="schedule-item__name">Easy Cardio</div>
+          <div class="schedule-item__details">Coach Ria · Studio B · 20 spots</div>
+        </div>
+        <span class="schedule-item__badge badge--cardio">Cardio</span>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;" class="reveal">
+      <div>
+        <div style="font-weight:600;margin-bottom:4px;">Want to book a class?</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);">Members book via the app. New here? Claim your free trial and try any class this week.</div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="login.html" class="btn btn-outline">Member App</a>
+        <a href="trial.html" class="btn btn-primary">Free Trial</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Class Descriptions -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center reveal">
+      <span class="section-label">What to Expect</span>
+      <h2 class="section-title">Know your class<br>before you arrive.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal" data-delay="1">
+        <div class="card__body">
+          <div class="card__tag">💪 Strength</div>
+          <h3>Powerlifting & Barbell</h3>
+          <p>Built around the three main lifts — squat, bench, deadlift. Suitable for beginners to intermediate. Coach teaches, spots, and programs progression over 8-week cycles.</p>
+        </div>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <div class="card__body">
+          <div class="card__tag">🔥 HIIT</div>
+          <h3>High Intensity Interval</h3>
+          <p>Short, brutal, effective. 45 minutes of circuits, intervals, and compound movements. Maximum calorie burn, minimum time wasted. All fitness levels welcome — modifications provided.</p>
+        </div>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <div class="card__body">
+          <div class="card__tag">🥊 Boxing</div>
+          <h3>Boxing Fitness</h3>
+          <p>Technique-first boxing for fitness. No sparring, no contact — just you, the bags, and combinations that will make your shoulders burn in the best way. Beginners and experienced welcome.</p>
+        </div>
+      </div>
+      <div class="card reveal" data-delay="1">
+        <div class="card__body">
+          <div class="card__tag">🏃 Cardio</div>
+          <h3>Spin & Cardio</h3>
+          <p>High-energy spin classes with music that actually goes. Or express cardio sessions designed to push your aerobic base without killing your legs before a leg day.</p>
+        </div>
+      </div>
+      <div class="card reveal" data-delay="2">
+        <div class="card__body">
+          <div class="card__tag">🧘 Yoga</div>
+          <h3>Yoga — All Styles</h3>
+          <p>Power yoga for athletes who want to move better. Yin yoga for people who need to slow down. Sunday flow for both. No spiritual pressure — just movement and breath.</p>
+        </div>
+      </div>
+      <div class="card reveal" data-delay="3">
+        <div class="card__body">
+          <div class="card__tag">💆 Recovery</div>
+          <h3>Mobility & Recovery</h3>
+          <p>Run by Marcus, a sports physio who knows the difference between good pain and bad pain. Foam rolling, stretching, breathwork. The session serious athletes skip and then regret.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="footer__logo">ATL<span>A</span>S</div>
+        <p class="footer__tagline">Forge your legacy. Every rep, every session, every day.</p>
+        <div class="footer__socials">
+          <a href="#" class="footer__social">📷</a><a href="#" class="footer__social">📘</a>
+          <a href="#" class="footer__social">🎵</a><a href="#" class="footer__social">▶️</a>
+        </div>
+      </div>
+      <div><div class="footer__col-title">Quick Links</div><ul class="footer__links">
+        <li><a href="membership.html">Membership</a></li><li><a href="classes.html">Classes</a></li>
+        <li><a href="trainers.html">Trainers</a></li><li><a href="facilities.html">Facilities</a></li>
+      </ul></div>
+      <div><div class="footer__col-title">Support</div><ul class="footer__links">
+        <li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li>
+        <li><a href="trial.html">Free Trial</a></li><li><a href="login.html">Member Login</a></li>
+      </ul></div>
+      <div><div class="footer__col-title">Visit</div><ul class="footer__links">
+        <li>[Your Address Here]</li><li>Mon–Fri: 6am–10pm</li><li>Sat–Sun: 7am–8pm</li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__copy">© 2026 Atlas Gym. All rights reserved.</div>
+      <div class="footer__bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
