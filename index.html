@@ -63,6 +63,11 @@
       gap: 24px;
       margin-top: 48px;
     }
+    .mem-option:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      max-width: calc(50% - 12px);
+      margin: 0 auto;
+    }
     .mem-option {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -272,32 +277,7 @@
         <a href="trial.html" class="btn btn-primary" style="align-self:flex-start;margin-top:8px;">Get Started <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
 
-      
-      <div class="trainer-card reveal" data-delay="2">
-        <div class="trainer-card__photo"><img src="https://file.garden/aeSpG6iUoRzyQ8ca/Tom.png" alt="Tom Holloway" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
-        <div class="trainer-card__body">
-          <div class="trainer-card__specialty">HIIT &amp; Fat Loss</div>
-          <div class="trainer-card__name">Tom Holloway</div>
-          <div class="trainer-card__quals">
-            <span class="trainer-card__qual">Masters Sports Science</span>
-            <span class="trainer-card__qual">S&amp;C Coach</span>
-            <span class="trainer-card__qual">Olympic Weightlifting Coach</span>
-            <span class="trainer-card__qual">Personal Trainer</span>
-          </div>
-        </div>
-      </div>
-      <div class="trainer-card reveal" data-delay="3">
-        <div class="trainer-card__photo"><img src="https://file.garden/aeSpG6iUoRzyQ8ca/Tait.png" alt="Tait Brown" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
-        <div class="trainer-card__body">
-          <div class="trainer-card__specialty">Mobility &amp; Recovery</div>
-          <div class="trainer-card__name">Tait Brown</div>
-          <div class="trainer-card__quals">
-            <span class="trainer-card__qual">Exercise Physiologist</span>
-            <span class="trainer-card__qual">Olympic Weightlifting Coach</span>
-            <span class="trainer-card__qual">Personal Trainer</span>
-          </div> 
-        </div>
-      </div>
+
     </div>
   </div>
 </section>
