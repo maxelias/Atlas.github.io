@@ -6,7 +6,6 @@
   <title>Admin — Atlas Gym</title>
   <link rel="icon" type="image/x-icon" href="https://file.garden/aeSpG6iUoRzyQ8ca/Screenshot%202026-04-27%20at%2011.19.57%E2%80%AFam.png">
   <style>
-    /* ── Reset & base ─────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg:          #0a0a0b;
@@ -21,13 +20,15 @@
       --text-2:      #9b9790;
       --text-3:      #5a5856;
       --red:         #e05555;
+      --red-dim:     rgba(224,85,85,0.12);
       --green:       #4caf78;
+      --green-dim:   rgba(76,175,120,0.12);
       --blue:        #5b8dee;
+      --blue-dim:    rgba(91,141,238,0.1);
       --radius:      10px;
       --radius-sm:   6px;
       --font-body:   'Georgia', serif;
       --font-mono:   'Courier New', monospace;
-      --font-display:'Georgia', serif;
       --shadow:      0 2px 16px rgba(0,0,0,0.5);
     }
 
@@ -64,447 +65,222 @@
       text-align: center;
     }
 
-    .gate-logo {
-      font-size: 1.5rem;
-      letter-spacing: 0.12em;
-      margin-bottom: 8px;
-    }
+    .gate-logo { font-size: 1.5rem; letter-spacing: 0.12em; margin-bottom: 8px; }
     .gate-logo span { color: var(--gold); }
 
     .gate-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-2);
-      margin-bottom: 36px;
+      font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-2); margin-bottom: 36px;
     }
 
     .gate-input {
-      width: 100%;
-      padding: 13px 16px;
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      letter-spacing: 0.12em;
-      outline: none;
-      margin-bottom: 12px;
-      transition: border-color .2s;
-      text-align: center;
+      width: 100%; padding: 13px 16px; background: var(--bg-3);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--text); font-family: var(--font-mono); font-size: 0.9rem;
+      letter-spacing: 0.12em; outline: none; margin-bottom: 12px;
+      transition: border-color .2s; text-align: center;
     }
     .gate-input:focus { border-color: var(--border-hi); }
 
     .gate-btn {
-      width: 100%;
-      padding: 13px;
-      background: var(--gold);
-      color: #000;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+      width: 100%; padding: 13px; background: var(--gold); color: #000;
+      border: none; border-radius: var(--radius-sm); font-size: 0.72rem;
+      font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
       transition: opacity .2s;
     }
     .gate-btn:hover { opacity: .85; }
 
-    .gate-error {
-      font-size: 0.78rem;
-      color: var(--red);
-      margin-top: 10px;
-      min-height: 18px;
-    }
+    .gate-error { font-size: 0.78rem; color: var(--red); margin-top: 10px; min-height: 18px; }
 
     /* ── App Shell ────────────────────────────── */
     #app { display: none; min-height: 100vh; }
 
-    /* ── Top Bar ──────────────────────────────── */
     .topbar {
-      background: var(--bg-2);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background: var(--bg-2); border-bottom: 1px solid var(--border);
+      padding: 0 32px; height: 56px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
     }
-
-    .topbar__left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .topbar__logo {
-      font-size: 1.1rem;
-      letter-spacing: 0.12em;
-    }
+    .topbar__left { display: flex; align-items: center; gap: 20px; }
+    .topbar__logo { font-size: 1.1rem; letter-spacing: 0.12em; }
     .topbar__logo span { color: var(--gold); }
-
     .topbar__badge {
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      background: var(--gold-dim);
-      border: 1px solid var(--border-hi);
-      border-radius: 100px;
-      color: var(--gold);
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 3px 8px; background: var(--gold-dim); border: 1px solid var(--border-hi);
+      border-radius: 100px; color: var(--gold);
     }
-
-    .topbar__right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .topbar__time {
-      font-size: 0.72rem;
-      color: var(--text-3);
-      font-family: var(--font-mono);
-    }
+    .topbar__right { display: flex; align-items: center; gap: 12px; }
+    .topbar__time { font-size: 0.72rem; color: var(--text-3); font-family: var(--font-mono); }
 
     .btn-sm {
-      padding: 7px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: none;
-      transition: all .2s;
+      padding: 7px 14px; border-radius: var(--radius-sm); font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; transition: all .2s; white-space: nowrap;
     }
-
-    .btn-ghost-sm {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-2);
-    }
+    .btn-ghost-sm { background: transparent; border: 1px solid var(--border); color: var(--text-2); }
     .btn-ghost-sm:hover { border-color: var(--border-hi); color: var(--text); }
-
-    .btn-gold-sm {
-      background: var(--gold-dim);
-      border: 1px solid var(--border-hi);
-      color: var(--gold);
-    }
+    .btn-gold-sm { background: var(--gold-dim); border: 1px solid var(--border-hi); color: var(--gold); }
     .btn-gold-sm:hover { background: rgba(201,168,76,0.2); }
+    .btn-green-sm { background: var(--green-dim); border: 1px solid rgba(76,175,120,0.3); color: var(--green); }
+    .btn-green-sm:hover { background: rgba(76,175,120,0.22); }
+    .btn-red-sm { background: var(--red-dim); border: 1px solid rgba(224,85,85,0.3); color: var(--red); }
+    .btn-red-sm:hover { background: rgba(224,85,85,0.22); }
+    .btn-sm:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ── Main layout ──────────────────────────── */
-    .main {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 36px 32px 80px;
-    }
+    .main { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
 
     /* ── Stats strip ──────────────────────────── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-
-    .stat {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 22px;
-    }
-
-    .stat__label {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-bottom: 10px;
-    }
-
-    .stat__value {
-      font-family: var(--font-mono);
-      font-size: 2rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-
-    .stat__sub {
-      font-size: 0.68rem;
-      color: var(--text-3);
-      margin-top: 6px;
-    }
+    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 36px; }
+    .stat { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+    .stat__label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+    .stat__value { font-family: var(--font-mono); font-size: 2rem; color: var(--gold); line-height: 1; }
+    .stat__sub { font-size: 0.68rem; color: var(--text-3); margin-top: 6px; }
 
     /* ── Tab bar ──────────────────────────────── */
-    .tabbar {
-      display: flex;
-      gap: 4px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 28px;
-    }
-
+    .tabbar { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 28px; flex-wrap: wrap; }
     .tab {
-      padding: 10px 20px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      transition: all .2s;
+      padding: 10px 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-3); background: none; border: none;
+      border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s;
     }
-
     .tab:hover { color: var(--text-2); }
-
-    .tab.active {
-      color: var(--gold);
-      border-bottom-color: var(--gold);
-    }
-
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
     .tab__count {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 5px;
-      background: var(--gold-dim);
-      border-radius: 100px;
-      font-size: 0.6rem;
-      margin-left: 6px;
-      color: var(--gold);
+      display: inline-flex; align-items: center; justify-content: center; min-width: 18px;
+      height: 18px; padding: 0 5px; background: var(--gold-dim); border-radius: 100px;
+      font-size: 0.6rem; margin-left: 6px; color: var(--gold);
     }
 
-    /* ── Panel ────────────────────────────────── */
     .panel { display: none; }
     .panel.active { display: block; }
 
     /* ── Toolbar row ──────────────────────────── */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .search {
-      flex: 1;
-      min-width: 200px;
-      max-width: 340px;
-      position: relative;
-    }
-
-    .search__icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-3);
-      font-size: 0.85rem;
-      pointer-events: none;
-    }
-
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+    .toolbar__group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .search { flex: 1; min-width: 200px; max-width: 340px; position: relative; }
+    .search__icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-3); font-size: 0.85rem; pointer-events: none; }
     .search__input {
-      width: 100%;
-      padding: 9px 12px 9px 34px;
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-size: 0.8rem;
-      outline: none;
-      transition: border-color .2s;
+      width: 100%; padding: 9px 12px 9px 34px; background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); font-size: 0.8rem; outline: none; transition: border-color .2s;
     }
     .search__input:focus { border-color: var(--border-hi); }
     .search__input::placeholder { color: var(--text-3); }
 
+    /* ── Status filter pills ──────────────────── */
+    .status-filters { display: flex; gap: 6px; }
+    .status-pill {
+      padding: 6px 13px; border-radius: 100px; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--border);
+      background: transparent; color: var(--text-3); transition: all .15s;
+    }
+    .status-pill:hover { color: var(--text-2); border-color: var(--border-hi); }
+    .status-pill.active { background: var(--gold-dim); border-color: var(--border-hi); color: var(--gold); }
+
     /* ── Loading / empty ──────────────────────── */
-    .loader {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      padding: 80px 0;
-      color: var(--text-3);
-    }
-
-    .spinner {
-      width: 28px; height: 28px;
-      border: 2px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-    }
-
+    .loader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 0; color: var(--text-3); }
+    .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .empty {
-      text-align: center;
-      padding: 80px 0;
-      color: var(--text-3);
-      font-size: 0.85rem;
-    }
+    .empty { text-align: center; padding: 80px 0; color: var(--text-3); font-size: 0.85rem; }
 
     /* ── Table ────────────────────────────────── */
-    .tbl-wrap {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead tr {
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-3);
-    }
-
-    thead th {
-      padding: 10px 16px;
-      text-align: left;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      white-space: nowrap;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: background .15s;
-    }
-
+    .tbl-wrap { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-bottom: 1px solid var(--border); background: var(--bg-3); }
+    thead th { padding: 10px 16px; text-align: left; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .15s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: rgba(255,255,255,0.02); }
-
-    tbody td {
-      padding: 13px 16px;
-      font-size: 0.8rem;
-      color: var(--text-2);
-      vertical-align: top;
-      max-width: 280px;
-    }
-
-    .cell-primary {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    .cell-mono {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-    }
-
+    tbody td { padding: 13px 16px; font-size: 0.8rem; color: var(--text-2); vertical-align: top; max-width: 280px; }
+    .cell-primary { color: var(--text); font-weight: 500; }
+    .cell-mono { font-family: var(--font-mono); font-size: 0.75rem; }
     .cell-muted { color: var(--text-3); }
+    .cell-actions { white-space: nowrap; display: flex; gap: 6px; }
 
     /* ── Badges ───────────────────────────────── */
-    .badge {
-      display: inline-block;
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 100px;
-      white-space: nowrap;
-    }
-
-    .badge-new    { background: rgba(76,175,120,0.12); border: 1px solid rgba(76,175,120,0.3); color: var(--green); }
+    .badge { display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
+    .badge-new    { background: var(--green-dim); border: 1px solid rgba(76,175,120,0.3); color: var(--green); }
     .badge-gold   { background: var(--gold-dim); border: 1px solid var(--border-hi); color: var(--gold); }
-    .badge-blue   { background: rgba(91,141,238,0.1); border: 1px solid rgba(91,141,238,0.25); color: var(--blue); }
+    .badge-blue   { background: var(--blue-dim); border: 1px solid rgba(91,141,238,0.25); color: var(--blue); }
     .badge-muted  { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-3); }
+    .badge-red    { background: var(--red-dim); border: 1px solid rgba(224,85,85,0.3); color: var(--red); }
+
+    /* ── Status select ────────────────────────── */
+    .status-select {
+      appearance: none; -webkit-appearance: none;
+      padding: 5px 26px 5px 10px; border-radius: 100px; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid; cursor: pointer;
+      background-repeat: no-repeat; background-position: right 8px center; background-size: 9px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239b9790' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+    }
+    .status-select.st-new      { background-color: var(--green-dim); border-color: rgba(76,175,120,0.3); color: var(--green); }
+    .status-select.st-contacted{ background-color: var(--blue-dim);  border-color: rgba(91,141,238,0.25); color: var(--blue); }
+    .status-select.st-resolved { background-color: var(--gold-dim);  border-color: var(--border-hi); color: var(--gold); }
+    .status-select option { background: var(--bg-3); color: var(--text); }
 
     /* ── Message cell ─────────────────────────── */
-    .msg-cell {
-      max-width: 320px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: var(--text-3);
-      font-size: 0.77rem;
-      font-style: italic;
-    }
+    .msg-cell { max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-3); font-size: 0.77rem; font-style: italic; }
 
     /* ── Expand row ───────────────────────────── */
     .expand-row { display: none; }
     .expand-row.open { display: table-row; }
+    .expand-cell { padding: 0 16px 16px !important; background: rgba(201,168,76,0.025) !important; }
+    .expand-inner { padding: 16px; background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.8rem; line-height: 1.7; color: var(--text-2); }
+    .expand-inner strong { color: var(--text); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .expand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .expand-field { height: auto; }
 
-    .expand-cell {
-      padding: 0 16px 16px !important;
-      background: rgba(201,168,76,0.025) !important;
+    .notes-block { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .notes-textarea {
+      width: 100%; min-height: 70px; padding: 10px 12px; background: var(--bg-4);
+      border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);
+      font-family: inherit; font-size: 0.8rem; resize: vertical; outline: none; margin-top: 8px;
     }
+    .notes-textarea:focus { border-color: var(--border-hi); }
 
-    .expand-inner {
-      padding: 16px;
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      color: var(--text-2);
-    }
-
-    .expand-inner strong {
-      color: var(--text);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 3px;
-    }
-
-    .expand-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .expand-field {   height: auto;
-  /* Or use transition for smooth expansion */
-  transition: height 0.3s ease;
-}
-
-    .row-toggle {
-      background: none;
-      border: none;
-      color: var(--text-3);
-      font-size: 0.7rem;
-      padding: 4px 8px;
-      border-radius: var(--radius-sm);
-      transition: all .15s;
-    }
+    .row-toggle { background: none; border: none; color: var(--text-3); font-size: 0.7rem; padding: 4px 8px; border-radius: var(--radius-sm); transition: all .15s; }
     .row-toggle:hover { background: var(--bg-3); color: var(--text-2); }
 
-    /* ── Copy btn ─────────────────────────────── */
-    .copy-btn {
-      background: none;
-      border: none;
-      color: var(--text-3);
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-      transition: all .15s;
-      margin-left: 4px;
-    }
+    .copy-btn { background: none; border: none; color: var(--text-3); font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; transition: all .15s; margin-left: 4px; }
     .copy-btn:hover { background: var(--bg-3); color: var(--gold); }
 
+    .icon-btn {
+      background: none; border: 1px solid var(--border); color: var(--text-3);
+      font-size: 0.72rem; padding: 5px 9px; border-radius: var(--radius-sm); transition: all .15s;
+    }
+    .icon-btn:hover { border-color: var(--border-hi); color: var(--text); }
+    .icon-btn.danger:hover { border-color: rgba(224,85,85,0.4); color: var(--red); background: var(--red-dim); }
+
+    /* ── Inline edit inputs (members) ─────────── */
+    .inline-input {
+      width: 100%; padding: 6px 9px; background: var(--bg-4); border: 1px solid var(--border);
+      border-radius: 5px; color: var(--text); font-size: 0.78rem; outline: none; font-family: inherit;
+    }
+    .inline-input:focus { border-color: var(--border-hi); }
+
+    /* ── Confirm modal ─────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(2px);
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px; max-width: 380px; width: 90%; text-align: center;
+    }
+    .modal-box p { font-size: 0.88rem; color: var(--text-2); margin: 10px 0 22px; line-height: 1.6; }
+    .modal-box h4 { font-size: 1rem; font-weight: 600; }
+    .modal-actions { display: flex; gap: 10px; justify-content: center; }
+    .modal-actions .btn-sm { padding: 9px 20px; }
+
+    /* ── Toast ─────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; background: var(--bg-3); border: 1px solid var(--border-hi);
+      border-radius: var(--radius-sm); padding: 12px 18px; font-size: 0.8rem; color: var(--text);
+      box-shadow: var(--shadow); transform: translateY(20px); opacity: 0; transition: all .25s; z-index: 1000;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
     /* ── Responsive ───────────────────────────── */
+    @media (max-width: 1024px) { .stats { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 900px) {
       .stats { grid-template-columns: repeat(2, 1fr); }
       .main { padding: 24px 16px 60px; }
@@ -513,7 +289,6 @@
       .expand-grid { grid-template-columns: 1fr 1fr; }
       thead th:nth-child(n+5), tbody td:nth-child(n+5) { display: none; }
     }
-
     @media (max-width: 580px) {
       .stats { grid-template-columns: 1fr 1fr; }
       thead th:nth-child(n+4), tbody td:nth-child(n+4) { display: none; }
@@ -532,6 +307,20 @@
     <div class="gate-error" id="gate-error"></div>
   </div>
 </div>
+
+<!-- ── Confirm modal ──────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <h4 id="modal-title">Are you sure?</h4>
+    <p id="modal-text">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-sm btn-ghost-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn-sm btn-red-sm" id="modal-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <!-- ── App ────────────────────────────────────────── -->
 <div id="app">
@@ -563,9 +352,9 @@
         <div class="stat__sub" id="stat-trials-new"></div>
       </div>
       <div class="stat">
-        <div class="stat__label">New Today</div>
-        <div class="stat__value" id="stat-today">–</div>
-        <div class="stat__sub">combined submissions</div>
+        <div class="stat__label">Awaiting Action</div>
+        <div class="stat__value" id="stat-pending" style="color:var(--red);">–</div>
+        <div class="stat__sub">status: new</div>
       </div>
       <div class="stat">
         <div class="stat__label">Members</div>
@@ -595,9 +384,17 @@
     <!-- Contacts Panel -->
     <div class="panel active" id="panel-contacts">
       <div class="toolbar">
-        <div class="search">
-          <span class="search__icon">🔍</span>
-          <input class="search__input" type="text" placeholder="Search name, email, subject…" oninput="filterTable('contacts-table', this.value)" />
+        <div class="toolbar__group">
+          <div class="search">
+            <span class="search__icon">🔍</span>
+            <input class="search__input" type="text" placeholder="Search name, email, subject…" oninput="filterTable('contacts-table', this.value)" />
+          </div>
+          <div class="status-filters" id="contacts-status-filters">
+            <button class="status-pill active" data-status="all" onclick="setStatusFilter('contacts','all',this)">All</button>
+            <button class="status-pill" data-status="new" onclick="setStatusFilter('contacts','new',this)">New</button>
+            <button class="status-pill" data-status="contacted" onclick="setStatusFilter('contacts','contacted',this)">Contacted</button>
+            <button class="status-pill" data-status="resolved" onclick="setStatusFilter('contacts','resolved',this)">Resolved</button>
+          </div>
         </div>
         <button class="btn-sm btn-ghost-sm" onclick="exportCSV('contacts')">↓ Export CSV</button>
       </div>
@@ -611,7 +408,7 @@
               <th>Email</th>
               <th>Subject</th>
               <th>Message</th>
-              <th>Phone</th>
+              <th>Status</th>
               <th>Received</th>
               <th></th>
             </tr>
@@ -624,9 +421,17 @@
     <!-- Trials Panel -->
     <div class="panel" id="panel-trials">
       <div class="toolbar">
-        <div class="search">
-          <span class="search__icon">🔍</span>
-          <input class="search__input" type="text" placeholder="Search name, email, goal…" oninput="filterTable('trials-table', this.value)" />
+        <div class="toolbar__group">
+          <div class="search">
+            <span class="search__icon">🔍</span>
+            <input class="search__input" type="text" placeholder="Search name, email, goal…" oninput="filterTable('trials-table', this.value)" />
+          </div>
+          <div class="status-filters" id="trials-status-filters">
+            <button class="status-pill active" data-status="all" onclick="setStatusFilter('trials','all',this)">All</button>
+            <button class="status-pill" data-status="new" onclick="setStatusFilter('trials','new',this)">New</button>
+            <button class="status-pill" data-status="contacted" onclick="setStatusFilter('trials','contacted',this)">Contacted</button>
+            <button class="status-pill" data-status="resolved" onclick="setStatusFilter('trials','resolved',this)">Resolved</button>
+          </div>
         </div>
         <button class="btn-sm btn-ghost-sm" onclick="exportCSV('trials')">↓ Export CSV</button>
       </div>
@@ -640,7 +445,7 @@
               <th>Email</th>
               <th>Goal</th>
               <th>Preferred Time</th>
-              <th>Phone</th>
+              <th>Status</th>
               <th>Received</th>
               <th></th>
             </tr>
@@ -714,7 +519,7 @@
           <input class="search__input" type="text" placeholder="Search name, email, ID…" oninput="filterTable('members-table', this.value)"
             style="max-width:320px;" />
         </div>
-        <div style="overflow-x:auto;">
+        <div class="tbl-wrap" style="overflow-x:auto;">
           <table id="members-table">
             <thead>
               <tr>
@@ -739,7 +544,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
   // ── Config ────────────────────────────────────────────
-  const ADMIN_PASSWORD = 'maxisasickcunt'; // ← Change this to whatever you want
+  const ADMIN_PASSWORD = 'maxisasickcunt';
   const SUPABASE_URL   = 'https://vowecpavuxgqbuvthzlm.supabase.co';
   const SUPABASE_KEY   = 'sb_publishable_w6Bk-wgdZW6XhUFV-J0i3w_7lLNVHvU';
 
@@ -756,10 +561,7 @@
       document.getElementById('gate-input').value = '';
     }
   }
-
-  document.getElementById('gate-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPassword();
-  });
+  document.getElementById('gate-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
 
   function showApp() {
     document.getElementById('gate').style.display = 'none';
@@ -767,22 +569,14 @@
     loadAll();
     startClock();
   }
-
-  function signOut() {
-    sessionStorage.removeItem('atlas_admin');
-    location.reload();
-  }
-
+  function signOut() { sessionStorage.removeItem('atlas_admin'); location.reload(); }
   if (sessionStorage.getItem('atlas_admin') === '1') showApp();
 
   // ── Clock ─────────────────────────────────────────────
   function startClock() {
     const el = document.getElementById('clock');
-    function tick() {
-      el.textContent = new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    }
-    tick();
-    setInterval(tick, 1000);
+    function tick() { el.textContent = new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
+    tick(); setInterval(tick, 1000);
   }
 
   // ── Tabs ──────────────────────────────────────────────
@@ -793,148 +587,118 @@
     document.getElementById('panel-' + name).classList.add('active');
   }
 
+  // ── State ─────────────────────────────────────────────
+  let allContacts = [];
+  let allTrials   = [];
+  let allMembers  = [];
+  let statusFilters = { contacts: 'all', trials: 'all' };
+
+  // ── Toast ─────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  // ── Confirm modal ─────────────────────────────────────
+  function confirmAction(title, text, onConfirm) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-text').textContent = text;
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('show');
+    const btn = document.getElementById('modal-confirm-btn');
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    newBtn.addEventListener('click', () => { closeModal(); onConfirm(); });
+  }
+  function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
+
   // ── Load all data ─────────────────────────────────────
   async function loadAll() {
     await Promise.all([loadContacts(), loadTrials(), loadMembers()]);
     updateStats();
   }
 
-  let allContacts = [];
-  let allTrials   = [];
-  let allMembers  = [];
-
   async function loadContacts() {
-    const { data, error } = await db
-      .from('contact_submissions')
-      .select('*')
-      .order('created_at', { ascending: false });
-
+    const { data, error } = await db.from('contact_submissions').select('*').order('created_at', { ascending: false });
     const loading = document.getElementById('contacts-loading');
     const empty   = document.getElementById('contacts-empty');
     const wrap    = document.getElementById('contacts-wrap');
-
     loading.style.display = 'none';
 
     if (error || !data || data.length === 0) {
-      empty.style.display = 'block';
-      wrap.style.display = 'none';
+      empty.style.display = 'block'; wrap.style.display = 'none';
       allContacts = [];
       document.getElementById('tab-count-contacts').textContent = '0';
       return;
     }
-
     allContacts = data;
     document.getElementById('tab-count-contacts').textContent = data.length;
-    empty.style.display = 'none';
-    wrap.style.display = 'block';
-    renderContacts(data);
+    empty.style.display = 'none'; wrap.style.display = 'block';
+    renderContacts();
   }
 
   async function loadTrials() {
-    const { data, error } = await db
-      .from('trial_submissions')
-      .select('*')
-      .order('created_at', { ascending: false });
-
+    const { data, error } = await db.from('trial_submissions').select('*').order('created_at', { ascending: false });
     const loading = document.getElementById('trials-loading');
     const empty   = document.getElementById('trials-empty');
     const wrap    = document.getElementById('trials-wrap');
-
     loading.style.display = 'none';
 
     if (error || !data || data.length === 0) {
-      empty.style.display = 'block';
-      wrap.style.display = 'none';
+      empty.style.display = 'block'; wrap.style.display = 'none';
       allTrials = [];
       document.getElementById('tab-count-trials').textContent = '0';
       return;
     }
-
     allTrials = data;
     document.getElementById('tab-count-trials').textContent = data.length;
-    empty.style.display = 'none';
-    wrap.style.display = 'block';
-    renderTrials(data);
+    empty.style.display = 'none'; wrap.style.display = 'block';
+    renderTrials();
   }
 
   async function loadMembers() {
-    const { data, error } = await db
-      .from('members')
-      .select('*')
-      .order('invited_at', { ascending: false });
-
+    const { data, error } = await db.from('members').select('*').order('invited_at', { ascending: false });
     const loading = document.getElementById('members-loading');
     const empty   = document.getElementById('members-empty');
     const wrap    = document.getElementById('members-wrap');
-
     loading.style.display = 'none';
 
     if (error || !data || data.length === 0) {
-      empty.style.display = 'block';
-      wrap.style.display = 'none';
+      empty.style.display = 'block'; wrap.style.display = 'none';
       allMembers = [];
       document.getElementById('stat-members').textContent = '0';
       return;
     }
-
     allMembers = data;
     document.getElementById('stat-members').textContent = data.length;
     document.getElementById('stat-members-sub').textContent = data.filter(m => m.status === 'active').length + ' active';
-    empty.style.display = 'none';
-    wrap.style.display = 'block';
-    renderMembers(data);
+    empty.style.display = 'none'; wrap.style.display = 'block';
+    renderMembers();
   }
 
-  function renderMembers(rows) {
-    const tbody = document.querySelector('#members-table tbody');
-    tbody.innerHTML = rows.map(r => {
-      const name    = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
-      const date    = r.invited_at ? new Date(r.invited_at).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }) : '—';
-      const statusColor = r.status === 'active' ? 'var(--green)' : 'var(--gold)';
-      const statusLabel = r.status === 'active' ? 'Active' : 'Invited';
-      return `<tr>
-        <td>${esc(name)}</td>
-        <td>${esc(r.email || '')}</td>
-        <td>${esc(r.member_id || '—')}</td>
-        <td>${esc(r.notes || '—')}</td>
-        <td><span style="color:${statusColor};font-weight:600;font-size:0.75rem;">${statusLabel}</span></td>
-        <td style="color:var(--text-3);font-size:0.75rem;">${date}</td>
-        <td>
-          <button class="btn-sm" style="font-size:0.7rem;padding:4px 10px;" onclick="resendInvite('${esc(r.email)}', this)">Resend</button>
-        </td>
-      </tr>`;
-    }).join('');
-  }
-
-  async function resendInvite(email, btn) {
-    btn.textContent = 'Sending…';
-    btn.disabled = true;
-    const { error } = await db.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: false,
-        emailRedirectTo: 'https://hilarious-tomato-9k7jpk5fbm.edgeone.app/login.html'
-      }
-    });
-    btn.disabled = false;
-    btn.textContent = error ? 'Error' : '✓ Sent';
-    setTimeout(() => { btn.textContent = 'Resend'; }, 3000);
+  // ── Status filter pills ───────────────────────────────
+  function setStatusFilter(type, status, btn) {
+    statusFilters[type] = status;
+    btn.parentElement.querySelectorAll('.status-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    if (type === 'contacts') renderContacts();
+    if (type === 'trials') renderTrials();
   }
 
   // ── Stats ─────────────────────────────────────────────
   function updateStats() {
-    const todayStart = new Date(); todayStart.setHours(0,0,0,0);
-    const cutoff24h  = new Date(Date.now() - 86400000);
-
+    const cutoff24h = new Date(Date.now() - 86400000);
     const contactsNew = allContacts.filter(r => new Date(r.created_at) > cutoff24h).length;
     const trialsNew   = allTrials.filter(r => new Date(r.created_at) > cutoff24h).length;
-    const todayAll    = [...allContacts, ...allTrials].filter(r => new Date(r.created_at) > todayStart).length;
+    const pending = [...allContacts, ...allTrials].filter(r => (r.status || 'new') === 'new').length;
 
     document.getElementById('stat-contacts').textContent = allContacts.length;
     document.getElementById('stat-contacts-new').textContent = contactsNew > 0 ? `+${contactsNew} in last 24h` : 'none in last 24h';
     document.getElementById('stat-trials').textContent = allTrials.length;
     document.getElementById('stat-trials-new').textContent = trialsNew > 0 ? `+${trialsNew} in last 24h` : 'none in last 24h';
-    document.getElementById('stat-today').textContent = todayAll;
+    document.getElementById('stat-pending').textContent = pending;
     document.getElementById('stat-members').textContent = allMembers.length;
     document.getElementById('stat-members-sub').textContent = allMembers.filter(m => m.status === 'active').length + ' active';
 
@@ -947,14 +711,60 @@
     }
   }
 
+  // ── Update status (contacts / trials) ─────────────────
+  async function updateStatus(table, id, newStatus, selectEl) {
+    const { error } = await db.from(table).update({ status: newStatus }).eq('id', id);
+    if (error) { showToast('Error updating status'); return; }
+    selectEl.className = 'status-select st-' + newStatus;
+    const list = table === 'contact_submissions' ? allContacts : allTrials;
+    const row = list.find(r => r.id === id);
+    if (row) row.status = newStatus;
+    updateStats();
+    showToast('Status updated');
+  }
+
+  // ── Save notes ─────────────────────────────────────────
+  async function saveNotes(table, id, textareaEl, btnEl) {
+    const notes = textareaEl.value.trim();
+    btnEl.textContent = 'Saving…'; btnEl.disabled = true;
+    const { error } = await db.from(table).update({ admin_notes: notes }).eq('id', id);
+    btnEl.disabled = false;
+    if (error) { btnEl.textContent = 'Error'; showToast('Failed to save notes'); return; }
+    btnEl.textContent = '✓ Saved';
+    const list = table === 'contact_submissions' ? allContacts : (table === 'trial_submissions' ? allTrials : allMembers);
+    const row = list.find(r => r.id === id);
+    if (row) row.admin_notes = notes;
+    setTimeout(() => { btnEl.textContent = 'Save Notes'; }, 1500);
+    showToast('Notes saved');
+  }
+
+  // ── Delete row ─────────────────────────────────────────
+  function deleteRow(table, id, label, reload) {
+    confirmAction('Delete this entry?', `This will permanently remove ${label} from the database. This cannot be undone.`, async () => {
+      const { error } = await db.from(table).delete().eq('id', id);
+      if (error) { showToast('Error deleting'); return; }
+      showToast('Deleted');
+      reload();
+    });
+  }
+
   // ── Render contacts ───────────────────────────────────
-  function renderContacts(rows) {
+  function renderContacts() {
+    const filter = statusFilters.contacts;
+    const rows = filter === 'all' ? allContacts : allContacts.filter(r => (r.status || 'new') === filter);
     const tbody = document.getElementById('contacts-body');
     tbody.innerHTML = '';
+
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">No entries match this filter.</td></tr>`;
+      return;
+    }
+
     rows.forEach((r, i) => {
       const isNew = isRecent(r.created_at);
       const name  = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
-      const id    = `cr-${i}`;
+      const id    = `cr-${r.id}`;
+      const status = r.status || 'new';
 
       const tr = document.createElement('tr');
       tr.dataset.search = [name, r.email, r.subject, r.message, r.phone].filter(Boolean).join(' ').toLowerCase();
@@ -963,9 +773,18 @@
         <td class="cell-mono">${escHtml(r.email || '—')}<button class="copy-btn" onclick="copyText('${escAttr(r.email || '')}', this)" title="Copy">⎘</button></td>
         <td>${r.subject ? `<span class="badge badge-blue">${escHtml(r.subject)}</span>` : '<span class="cell-muted">—</span>'}</td>
         <td class="msg-cell">${escHtml(r.message || '—')}</td>
-        <td class="cell-muted cell-mono">${escHtml(r.phone || '—')}</td>
+        <td>
+          <select class="status-select st-${status}" onchange="updateStatus('contact_submissions', '${r.id}', this.value, this)">
+            <option value="new" ${status==='new'?'selected':''}>New</option>
+            <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
+            <option value="resolved" ${status==='resolved'?'selected':''}>Resolved</option>
+          </select>
+        </td>
         <td class="cell-muted" style="white-space:nowrap;">${fmtDate(r.created_at)}</td>
-        <td><button class="row-toggle" onclick="toggleExpand('${id}')" id="toggle-${id}">▸ More</button></td>
+        <td class="cell-actions">
+          <button class="row-toggle" onclick="toggleExpand('${id}')" id="toggle-${id}">▸ More</button>
+          <button class="icon-btn danger" onclick="deleteRow('contact_submissions','${r.id}','this enquiry',loadContacts)" title="Delete">✕</button>
+        </td>
       `;
 
       const expTr = document.createElement('tr');
@@ -982,6 +801,11 @@
               <div class="expand-field"><strong>Received</strong>${fmtDateFull(r.created_at)}</div>
             </div>
             <div style="margin-top:14px;"><strong>Message</strong>${escHtml(r.message || 'No message provided.')}</div>
+            <div class="notes-block">
+              <strong>Internal Notes</strong>
+              <textarea class="notes-textarea" id="notes-${id}" placeholder="Add a private note — call outcome, follow-up needed, etc.">${escHtml(r.admin_notes || '')}</textarea>
+              <button class="btn-sm btn-gold-sm" style="margin-top:8px;" onclick="saveNotes('contact_submissions','${r.id}', document.getElementById('notes-${id}'), this)">Save Notes</button>
+            </div>
           </div>
         </td>
       `;
@@ -992,13 +816,22 @@
   }
 
   // ── Render trials ─────────────────────────────────────
-  function renderTrials(rows) {
+  function renderTrials() {
+    const filter = statusFilters.trials;
+    const rows = filter === 'all' ? allTrials : allTrials.filter(r => (r.status || 'new') === filter);
     const tbody = document.getElementById('trials-body');
     tbody.innerHTML = '';
+
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">No entries match this filter.</td></tr>`;
+      return;
+    }
+
     rows.forEach((r, i) => {
       const isNew = isRecent(r.created_at);
       const name  = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
-      const id    = `tr-${i}`;
+      const id    = `tr-${r.id}`;
+      const status = r.status || 'new';
 
       const tr = document.createElement('tr');
       tr.dataset.search = [name, r.email, r.goal, r.preferred_time, r.phone].filter(Boolean).join(' ').toLowerCase();
@@ -1007,9 +840,18 @@
         <td class="cell-mono">${escHtml(r.email || '—')}<button class="copy-btn" onclick="copyText('${escAttr(r.email || '')}', this)" title="Copy">⎘</button></td>
         <td>${r.goal ? `<span class="badge badge-gold">${escHtml(r.goal)}</span>` : '<span class="cell-muted">—</span>'}</td>
         <td class="cell-muted">${escHtml(r.preferred_time || '—')}</td>
-        <td class="cell-muted cell-mono">${escHtml(r.phone || '—')}</td>
+        <td>
+          <select class="status-select st-${status}" onchange="updateStatus('trial_submissions', '${r.id}', this.value, this)">
+            <option value="new" ${status==='new'?'selected':''}>New</option>
+            <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
+            <option value="resolved" ${status==='resolved'?'selected':''}>Resolved</option>
+          </select>
+        </td>
         <td class="cell-muted" style="white-space:nowrap;">${fmtDate(r.created_at)}</td>
-        <td><button class="row-toggle" onclick="toggleExpand('${id}')" id="toggle-${id}">▸ More</button></td>
+        <td class="cell-actions">
+          <button class="row-toggle" onclick="toggleExpand('${id}')" id="toggle-${id}">▸ More</button>
+          <button class="icon-btn danger" onclick="deleteRow('trial_submissions','${r.id}','this trial request',loadTrials)" title="Delete">✕</button>
+        </td>
       `;
 
       const expTr = document.createElement('tr');
@@ -1026,7 +868,12 @@
               <div class="expand-field"><strong>Preferred Time</strong>${escHtml(r.preferred_time || '—')}</div>
               <div class="expand-field"><strong>Received</strong>${fmtDateFull(r.created_at)}</div>
             </div>
-            ${r.message ? `<div style="margin-top:14px;"><strong>Notes</strong>${escHtml(r.message)}</div>` : ''}
+            ${r.message ? `<div style="margin-top:14px;"><strong>Notes from form</strong>${escHtml(r.message)}</div>` : ''}
+            <div class="notes-block">
+              <strong>Internal Notes</strong>
+              <textarea class="notes-textarea" id="notes-${id}" placeholder="Add a private note — call outcome, follow-up needed, etc.">${escHtml(r.admin_notes || '')}</textarea>
+              <button class="btn-sm btn-gold-sm" style="margin-top:8px;" onclick="saveNotes('trial_submissions','${r.id}', document.getElementById('notes-${id}'), this)">Save Notes</button>
+            </div>
           </div>
         </td>
       `;
@@ -1034,6 +881,81 @@
       tbody.appendChild(tr);
       tbody.appendChild(expTr);
     });
+  }
+
+  // ── Render members ─────────────────────────────────────
+  function renderMembers() {
+    const tbody = document.querySelector('#members-table tbody');
+    tbody.innerHTML = allMembers.map(r => {
+      const name = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
+      const date = r.invited_at ? new Date(r.invited_at).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }) : '—';
+      const status = r.status || 'invited';
+      return `<tr data-member-id="${r.id}">
+        <td>
+          <input class="inline-input" value="${escAttr(name)}" id="m-name-${r.id}" />
+        </td>
+        <td class="cell-mono">${escHtml(r.email || '')}</td>
+        <td><input class="inline-input" value="${escAttr(r.member_id || '')}" id="m-mid-${r.id}" style="max-width:110px;" /></td>
+        <td><input class="inline-input" value="${escAttr(r.notes || '')}" id="m-notes-${r.id}" /></td>
+        <td>
+          <select class="status-select ${status==='active'?'st-resolved':'st-new'}" id="m-status-${r.id}">
+            <option value="invited" ${status==='invited'?'selected':''}>Invited</option>
+            <option value="active" ${status==='active'?'selected':''}>Active</option>
+            <option value="paused" ${status==='paused'?'selected':''}>Paused</option>
+            <option value="cancelled" ${status==='cancelled'?'selected':''}>Cancelled</option>
+          </select>
+        </td>
+        <td style="color:var(--text-3);font-size:0.75rem;">${date}</td>
+        <td class="cell-actions">
+          <button class="icon-btn" onclick="saveMemberEdits('${r.id}', this)" title="Save changes">💾</button>
+          <button class="icon-btn" onclick="resendInvite('${escAttr(r.email)}', this)" title="Resend invite">✉</button>
+          <button class="icon-btn danger" onclick="deleteRow('members','${r.id}','this member',loadMembers)" title="Delete">✕</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── Save member inline edits ───────────────────────────
+  async function saveMemberEdits(id, btn) {
+    const nameInput = document.getElementById(`m-name-${id}`);
+    const fullName  = nameInput.value.trim();
+    const parts     = fullName.split(' ');
+    const firstName = parts.shift() || null;
+    const lastName  = parts.join(' ') || null;
+    const memberId  = document.getElementById(`m-mid-${id}`).value.trim() || null;
+    const notes     = document.getElementById(`m-notes-${id}`).value.trim() || null;
+    const status    = document.getElementById(`m-status-${id}`).value;
+
+    const orig = btn.textContent;
+    btn.textContent = '…'; btn.disabled = true;
+
+    const { error } = await db.from('members').update({
+      first_name: firstName, last_name: lastName, member_id: memberId, notes, status
+    }).eq('id', id);
+
+    btn.disabled = false;
+    btn.textContent = error ? '⚠' : '✓';
+    if (!error) {
+      showToast('Member updated');
+      const m = allMembers.find(x => x.id === id);
+      if (m) Object.assign(m, { first_name: firstName, last_name: lastName, member_id: memberId, notes, status });
+      updateStats();
+    } else {
+      showToast('Error updating member');
+    }
+    setTimeout(() => { btn.textContent = orig; }, 1500);
+  }
+
+  async function resendInvite(email, btn) {
+    btn.textContent = '…'; btn.disabled = true;
+    const { error } = await db.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: false, emailRedirectTo: 'https://hilarious-tomato-9k7jpk5fbm.edgeone.app/login.html' }
+    });
+    btn.disabled = false;
+    btn.textContent = error ? '⚠' : '✓';
+    showToast(error ? 'Error sending invite' : 'Invite sent');
+    setTimeout(() => { btn.textContent = '✉'; }, 2000);
   }
 
   // ── Expand/collapse ───────────────────────────────────
@@ -1050,9 +972,8 @@
     const table = document.getElementById(tableId);
     if (!table) return;
     table.querySelectorAll('tbody tr:not(.expand-row)').forEach(tr => {
-      const match = !q || (tr.dataset.search || '').includes(q);
+      const match = !q || (tr.dataset.search || '').includes(q) || tr.textContent.toLowerCase().includes(q);
       tr.style.display = match ? '' : 'none';
-      // also hide its expand row
       const nextTr = tr.nextElementSibling;
       if (nextTr && nextTr.classList.contains('expand-row')) {
         if (!match) nextTr.classList.remove('open');
@@ -1065,8 +986,7 @@
   function copyText(text, btn) {
     navigator.clipboard.writeText(text).then(() => {
       const orig = btn.textContent;
-      btn.textContent = '✓';
-      btn.style.color = '#4caf78';
+      btn.textContent = '✓'; btn.style.color = '#4caf78';
       setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
     });
   }
@@ -1076,9 +996,7 @@
     const rows = type === 'contacts' ? allContacts : allTrials;
     if (!rows.length) return;
     const keys = Object.keys(rows[0]);
-    const csv  = [keys.join(','), ...rows.map(r =>
-      keys.map(k => JSON.stringify(r[k] ?? '')).join(',')
-    )].join('\n');
+    const csv  = [keys.join(','), ...rows.map(r => keys.map(k => JSON.stringify(r[k] ?? '')).join(','))].join('\n');
     const a = document.createElement('a');
     a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
     a.download = `atlas-${type}-${new Date().toISOString().slice(0,10)}.csv`;
@@ -1086,29 +1004,11 @@
   }
 
   // ── Helpers ───────────────────────────────────────────
-  function isRecent(dateStr) {
-    return dateStr && (Date.now() - new Date(dateStr).getTime()) < 86400000;
-  }
-
-  function fmtDate(dateStr) {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' });
-  }
-
-  function fmtDateFull(dateStr) {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleString('en-AU', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-  }
-
-  function escHtml(str) {
-    return String(str)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
-
-  function escAttr(str) {
-    return String(str).replace(/'/g, "\\'").replace(/"/g, '\\"');
-  }
+  function isRecent(dateStr) { return dateStr && (Date.now() - new Date(dateStr).getTime()) < 86400000; }
+  function fmtDate(dateStr) { if (!dateStr) return '—'; return new Date(dateStr).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }); }
+  function fmtDateFull(dateStr) { if (!dateStr) return '—'; return new Date(dateStr).toLocaleString('en-AU', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+  function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function escAttr(str) { return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
   // ── Invite / Authenticate member ──────────────────────
   async function inviteMember() {
@@ -1120,7 +1020,7 @@
     const resultEl      = document.getElementById('invite-result');
     const btn           = document.getElementById('invite-btn');
 
-    const email    = emailInput.value.trim();
+    const email     = emailInput.value.trim();
     const firstName = firstInput.value.trim();
     const lastName  = lastInput.value.trim();
     const memberId  = memberIdInput.value.trim();
@@ -1132,47 +1032,32 @@
       return;
     }
 
-    btn.textContent = 'Sending…';
-    btn.disabled = true;
-    resultEl.textContent = '';
+    btn.textContent = 'Sending…'; btn.disabled = true; resultEl.textContent = '';
 
     const { error } = await db.auth.signInWithOtp({
       email,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: 'https://hilarious-tomato-9k7jpk5fbm.edgeone.app/login.html'
-      }
+      options: { shouldCreateUser: true, emailRedirectTo: 'https://hilarious-tomato-9k7jpk5fbm.edgeone.app/login.html' }
     });
 
     if (error) {
       resultEl.style.color = 'var(--red)';
       resultEl.textContent = 'Error: ' + error.message;
-      btn.textContent = 'Authenticate →';
-      btn.disabled = false;
+      btn.textContent = 'Authenticate →'; btn.disabled = false;
       return;
     }
 
-    // Save member details to Supabase
     await db.from('members').upsert([{
-      email,
-      first_name: firstName || null,
-      last_name:  lastName  || null,
-      member_id:  memberId  || null,
-      notes:      notes     || null,
-      status:     'invited',
-      invited_at: new Date().toISOString()
+      email, first_name: firstName || null, last_name: lastName || null,
+      member_id: memberId || null, notes: notes || null,
+      status: 'invited', invited_at: new Date().toISOString()
     }], { onConflict: 'email' });
 
-    btn.textContent = 'Authenticate →';
-    btn.disabled = false;
+    btn.textContent = 'Authenticate →'; btn.disabled = false;
     resultEl.style.color = 'var(--green)';
     resultEl.textContent = '✓ Access link sent to ' + email;
 
-    emailInput.value    = '';
-    firstInput.value    = '';
-    lastInput.value     = '';
-    memberIdInput.value = '';
-    notesInput.value    = '';
+    emailInput.value = ''; firstInput.value = ''; lastInput.value = '';
+    memberIdInput.value = ''; notesInput.value = '';
 
     loadMembers();
   }
