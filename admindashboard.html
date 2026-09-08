@@ -3,1064 +3,635 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Atlas Gym</title>
-  <link rel="icon" type="image/x-icon" href="https://file.garden/aeSpG6iUoRzyQ8ca/Screenshot%202026-04-27%20at%2011.19.57%E2%80%AFam.png">
+  <title>Admin Dashboard — Atlas Strength Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg:          #0a0a0b;
-      --bg-2:        #111114;
-      --bg-3:        #18181c;
-      --bg-4:        #1e1e24;
-      --border:      rgba(255,255,255,0.07);
-      --border-hi:   rgba(201,168,76,0.35);
-      --gold:        #c9a84c;
-      --gold-dim:    rgba(201,168,76,0.12);
-      --text:        #f0ede8;
-      --text-2:      #9b9790;
-      --text-3:      #5a5856;
-      --red:         #e05555;
-      --red-dim:     rgba(224,85,85,0.12);
-      --green:       #4caf78;
-      --green-dim:   rgba(76,175,120,0.12);
-      --blue:        #5b8dee;
-      --blue-dim:    rgba(91,141,238,0.1);
-      --radius:      10px;
-      --radius-sm:   6px;
-      --font-body:   'Georgia', serif;
-      --font-mono:   'Courier New', monospace;
-      --shadow:      0 2px 16px rgba(0,0,0,0.5);
+      --bg: #111111;
+      --bg-card: #1a1a1a;
+      --bg-section: #161616;
+      --border: #2a2a2a;
+      --border-focus: #C1B7A7;
+      --accent: #C1B7A7;
+      --text: #F0EDE8;
+      --text-muted: #888;
+      --text-secondary: #b0aca6;
+      --green: #4CAF79;
+      --red: #e05c5c;
+      --radius: 10px;
+      --font-display: 'Montserrat', sans-serif;
+      --font-body: 'Poppins', sans-serif;
     }
 
-    html { font-size: 15px; }
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
+      font-size: 0.9rem;
       min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
     }
 
-    a { color: var(--gold); text-decoration: none; }
-    button { cursor: pointer; font-family: inherit; }
-
-    /* ── Password Gate ────────────────────────── */
-    #gate {
-      min-height: 100vh;
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 60px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
-        var(--bg);
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar__brand {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+    .topbar__meta { font-size: 0.75rem; color: var(--text-muted); }
+    .topbar__actions { display: flex; gap: 12px; align-items: center; }
+    .topbar__back {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .topbar__back:hover { color: var(--text); }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: calc(100vh - 60px);
     }
 
-    .gate-box {
-      width: 100%;
-      max-width: 360px;
-      padding: 48px 40px;
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      text-align: center;
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+    .sidebar__label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 20px 8px;
+      margin-top: 16px;
+    }
+    .sidebar__item {
+      display: block;
+      padding: 10px 20px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .sidebar__item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar__item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(193,183,167,0.06); }
+
+    /* ── Main ── */
+    .main {
+      padding: 40px 48px;
+      max-width: 900px;
     }
 
-    .gate-logo { font-size: 1.5rem; letter-spacing: 0.12em; margin-bottom: 8px; }
-    .gate-logo span { color: var(--gold); }
-
-    .gate-label {
-      font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--text-2); margin-bottom: 36px;
-    }
-
-    .gate-input {
-      width: 100%; padding: 13px 16px; background: var(--bg-3);
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      color: var(--text); font-family: var(--font-mono); font-size: 0.9rem;
-      letter-spacing: 0.12em; outline: none; margin-bottom: 12px;
-      transition: border-color .2s; text-align: center;
-    }
-    .gate-input:focus { border-color: var(--border-hi); }
-
-    .gate-btn {
-      width: 100%; padding: 13px; background: var(--gold); color: #000;
-      border: none; border-radius: var(--radius-sm); font-size: 0.72rem;
-      font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-      transition: opacity .2s;
-    }
-    .gate-btn:hover { opacity: .85; }
-
-    .gate-error { font-size: 0.78rem; color: var(--red); margin-top: 10px; min-height: 18px; }
-
-    /* ── App Shell ────────────────────────────── */
-    #app { display: none; min-height: 100vh; }
-
-    .topbar {
-      background: var(--bg-2); border-bottom: 1px solid var(--border);
-      padding: 0 32px; height: 56px; display: flex; align-items: center;
-      justify-content: space-between; position: sticky; top: 0; z-index: 100;
-    }
-    .topbar__left { display: flex; align-items: center; gap: 20px; }
-    .topbar__logo { font-size: 1.1rem; letter-spacing: 0.12em; }
-    .topbar__logo span { color: var(--gold); }
-    .topbar__badge {
-      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-      padding: 3px 8px; background: var(--gold-dim); border: 1px solid var(--border-hi);
-      border-radius: 100px; color: var(--gold);
-    }
-    .topbar__right { display: flex; align-items: center; gap: 12px; }
-    .topbar__time { font-size: 0.72rem; color: var(--text-3); font-family: var(--font-mono); }
-
-    .btn-sm {
-      padding: 7px 14px; border-radius: var(--radius-sm); font-size: 0.7rem;
-      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      border: none; transition: all .2s; white-space: nowrap;
-    }
-    .btn-ghost-sm { background: transparent; border: 1px solid var(--border); color: var(--text-2); }
-    .btn-ghost-sm:hover { border-color: var(--border-hi); color: var(--text); }
-    .btn-gold-sm { background: var(--gold-dim); border: 1px solid var(--border-hi); color: var(--gold); }
-    .btn-gold-sm:hover { background: rgba(201,168,76,0.2); }
-    .btn-green-sm { background: var(--green-dim); border: 1px solid rgba(76,175,120,0.3); color: var(--green); }
-    .btn-green-sm:hover { background: rgba(76,175,120,0.22); }
-    .btn-red-sm { background: var(--red-dim); border: 1px solid rgba(224,85,85,0.3); color: var(--red); }
-    .btn-red-sm:hover { background: rgba(224,85,85,0.22); }
-    .btn-sm:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .main { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
-
-    /* ── Stats strip ──────────────────────────── */
-    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 36px; }
-    .stat { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
-    .stat__label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
-    .stat__value { font-family: var(--font-mono); font-size: 2rem; color: var(--gold); line-height: 1; }
-    .stat__sub { font-size: 0.68rem; color: var(--text-3); margin-top: 6px; }
-
-    /* ── Tab bar ──────────────────────────────── */
-    .tabbar { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 28px; flex-wrap: wrap; }
-    .tab {
-      padding: 10px 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--text-3); background: none; border: none;
-      border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s;
-    }
-    .tab:hover { color: var(--text-2); }
-    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-    .tab__count {
-      display: inline-flex; align-items: center; justify-content: center; min-width: 18px;
-      height: 18px; padding: 0 5px; background: var(--gold-dim); border-radius: 100px;
-      font-size: 0.6rem; margin-left: 6px; color: var(--gold);
-    }
-
+    /* ── Panels ── */
     .panel { display: none; }
     .panel.active { display: block; }
 
-    /* ── Toolbar row ──────────────────────────── */
-    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
-    .toolbar__group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .search { flex: 1; min-width: 200px; max-width: 340px; position: relative; }
-    .search__icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-3); font-size: 0.85rem; pointer-events: none; }
-    .search__input {
-      width: 100%; padding: 9px 12px 9px 34px; background: var(--bg-3); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); color: var(--text); font-size: 0.8rem; outline: none; transition: border-color .2s;
+    .panel__title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 4px;
     }
-    .search__input:focus { border-color: var(--border-hi); }
-    .search__input::placeholder { color: var(--text-3); }
-
-    /* ── Status filter pills ──────────────────── */
-    .status-filters { display: flex; gap: 6px; }
-    .status-pill {
-      padding: 6px 13px; border-radius: 100px; font-size: 0.65rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--border);
-      background: transparent; color: var(--text-3); transition: all .15s;
+    .panel__subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
     }
-    .status-pill:hover { color: var(--text-2); border-color: var(--border-hi); }
-    .status-pill.active { background: var(--gold-dim); border-color: var(--border-hi); color: var(--gold); }
 
-    /* ── Loading / empty ──────────────────────── */
-    .loader { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 0; color: var(--text-3); }
-    .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .empty { text-align: center; padding: 80px 0; color: var(--text-3); font-size: 0.85rem; }
-
-    /* ── Table ────────────────────────────────── */
-    .tbl-wrap { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; }
-    thead tr { border-bottom: 1px solid var(--border); background: var(--bg-3); }
-    thead th { padding: 10px 16px; text-align: left; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
-    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .15s; }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: rgba(255,255,255,0.02); }
-    tbody td { padding: 13px 16px; font-size: 0.8rem; color: var(--text-2); vertical-align: top; max-width: 280px; }
-    .cell-primary { color: var(--text); font-weight: 500; }
-    .cell-mono { font-family: var(--font-mono); font-size: 0.75rem; }
-    .cell-muted { color: var(--text-3); }
-    .cell-actions { white-space: nowrap; display: flex; gap: 6px; }
-
-    /* ── Badges ───────────────────────────────── */
-    .badge { display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
-    .badge-new    { background: var(--green-dim); border: 1px solid rgba(76,175,120,0.3); color: var(--green); }
-    .badge-gold   { background: var(--gold-dim); border: 1px solid var(--border-hi); color: var(--gold); }
-    .badge-blue   { background: var(--blue-dim); border: 1px solid rgba(91,141,238,0.25); color: var(--blue); }
-    .badge-muted  { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-3); }
-    .badge-red    { background: var(--red-dim); border: 1px solid rgba(224,85,85,0.3); color: var(--red); }
-
-    /* ── Status select ────────────────────────── */
-    .status-select {
-      appearance: none; -webkit-appearance: none;
-      padding: 5px 26px 5px 10px; border-radius: 100px; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid; cursor: pointer;
-      background-repeat: no-repeat; background-position: right 8px center; background-size: 9px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239b9790' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+    /* ── Form ── */
+    .form-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
     }
-    .status-select.st-new      { background-color: var(--green-dim); border-color: rgba(76,175,120,0.3); color: var(--green); }
-    .status-select.st-contacted{ background-color: var(--blue-dim);  border-color: rgba(91,141,238,0.25); color: var(--blue); }
-    .status-select.st-resolved { background-color: var(--gold-dim);  border-color: var(--border-hi); color: var(--gold); }
-    .status-select option { background: var(--bg-3); color: var(--text); }
-
-    /* ── Message cell ─────────────────────────── */
-    .msg-cell { max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-3); font-size: 0.77rem; font-style: italic; }
-
-    /* ── Expand row ───────────────────────────── */
-    .expand-row { display: none; }
-    .expand-row.open { display: table-row; }
-    .expand-cell { padding: 0 16px 16px !important; background: rgba(201,168,76,0.025) !important; }
-    .expand-inner { padding: 16px; background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.8rem; line-height: 1.7; color: var(--text-2); }
-    .expand-inner strong { color: var(--text); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 3px; }
-    .expand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .expand-field { height: auto; }
-
-    .notes-block { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .notes-textarea {
-      width: 100%; min-height: 70px; padding: 10px 12px; background: var(--bg-4);
-      border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);
-      font-family: inherit; font-size: 0.8rem; resize: vertical; outline: none; margin-top: 8px;
+    .form-section__title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
     }
-    .notes-textarea:focus { border-color: var(--border-hi); }
-
-    .row-toggle { background: none; border: none; color: var(--text-3); font-size: 0.7rem; padding: 4px 8px; border-radius: var(--radius-sm); transition: all .15s; }
-    .row-toggle:hover { background: var(--bg-3); color: var(--text-2); }
-
-    .copy-btn { background: none; border: none; color: var(--text-3); font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; transition: all .15s; margin-left: 4px; }
-    .copy-btn:hover { background: var(--bg-3); color: var(--gold); }
-
-    .icon-btn {
-      background: none; border: 1px solid var(--border); color: var(--text-3);
-      font-size: 0.72rem; padding: 5px 9px; border-radius: var(--radius-sm); transition: all .15s;
+    .field {
+      margin-bottom: 18px;
     }
-    .icon-btn:hover { border-color: var(--border-hi); color: var(--text); }
-    .icon-btn.danger:hover { border-color: rgba(224,85,85,0.4); color: var(--red); background: var(--red-dim); }
-
-    /* ── Inline edit inputs (members) ─────────── */
-    .inline-input {
-      width: 100%; padding: 6px 9px; background: var(--bg-4); border: 1px solid var(--border);
-      border-radius: 5px; color: var(--text); font-size: 0.78rem; outline: none; font-family: inherit;
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
     }
-    .inline-input:focus { border-color: var(--border-hi); }
-
-    /* ── Confirm modal ─────────────────────────── */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(2px);
+    .field input,
+    .field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      padding: 10px 14px;
+      transition: border-color 0.2s;
+      resize: vertical;
     }
-    .modal-overlay.show { display: flex; }
-    .modal-box {
-      background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 28px; max-width: 380px; width: 90%; text-align: center;
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--border-focus);
     }
-    .modal-box p { font-size: 0.88rem; color: var(--text-2); margin: 10px 0 22px; line-height: 1.6; }
-    .modal-box h4 { font-size: 1rem; font-weight: 600; }
-    .modal-actions { display: flex; gap: 10px; justify-content: center; }
-    .modal-actions .btn-sm { padding: 9px 20px; }
+    .field textarea { min-height: 80px; line-height: 1.6; }
+    .field--price input { max-width: 140px; }
+    .field--row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-    /* ── Toast ─────────────────────────────────── */
+    /* ── Save button ── */
+    .save-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #111;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 22px;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 8px;
+    }
+    .save-btn:hover { opacity: 0.85; }
+    .save-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Toast ── */
     .toast {
-      position: fixed; bottom: 24px; right: 24px; background: var(--bg-3); border: 1px solid var(--border-hi);
-      border-radius: var(--radius-sm); padding: 12px 18px; font-size: 0.8rem; color: var(--text);
-      box-shadow: var(--shadow); transform: translateY(20px); opacity: 0; transition: all .25s; z-index: 1000;
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 20px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 999;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--green); }
+    .toast.error { border-color: var(--red); }
+    .toast__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .toast.error .toast__dot { background: var(--red); }
 
-    /* ── Responsive ───────────────────────────── */
-    @media (max-width: 1024px) { .stats { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 900px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .main { padding: 24px 16px 60px; }
-      .topbar { padding: 0 16px; }
-      .topbar__time { display: none; }
-      .expand-grid { grid-template-columns: 1fr 1fr; }
-      thead th:nth-child(n+5), tbody td:nth-child(n+5) { display: none; }
+    /* ── Loading state ── */
+    .loading-overlay {
+      position: fixed; inset: 0;
+      background: rgba(17,17,17,0.7);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+      backdrop-filter: blur(4px);
     }
-    @media (max-width: 580px) {
-      .stats { grid-template-columns: 1fr 1fr; }
-      thead th:nth-child(n+4), tbody td:nth-child(n+4) { display: none; }
+    .loading-overlay.hidden { display: none; }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Status badges ── */
+    .status-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 28px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .status-dot.disconnected { background: var(--red); }
+
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+      .main { padding: 24px 20px; }
+      .field--row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── Password Gate ──────────────────────────────── -->
-<div id="gate">
-  <div class="gate-box">
-    <div class="gate-logo">ATL<span>A</span>S</div>
-    <div class="gate-label">Admin Portal</div>
-    <input class="gate-input" type="password" id="gate-input" placeholder="Enter admin password" autocomplete="off" />
-    <button class="gate-btn" onclick="checkPassword()">Enter</button>
-    <div class="gate-error" id="gate-error"></div>
+<div class="loading-overlay hidden" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast__dot"></div>
+  <span id="toastMsg">Saved successfully</span>
+</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar__brand">ATLAS · ADMIN</div>
+  <div class="topbar__actions">
+    <a href="index.html" class="topbar__back">← View Site</a>
   </div>
 </div>
 
-<!-- ── Confirm modal ──────────────────────────────── -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal-box">
-    <h4 id="modal-title">Are you sure?</h4>
-    <p id="modal-text">This action cannot be undone.</p>
-    <div class="modal-actions">
-      <button class="btn-sm btn-ghost-sm" onclick="closeModal()">Cancel</button>
-      <button class="btn-sm btn-red-sm" id="modal-confirm-btn">Confirm</button>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar__label">Content</div>
+    <a class="sidebar__item active" data-panel="hero">Hero Section</a>
+    <a class="sidebar__item" data-panel="why">Why Atlas</a>
+    <a class="sidebar__item" data-panel="membership">Memberships</a>
+    <a class="sidebar__item" data-panel="coaches">Coaches</a>
+    <a class="sidebar__item" data-panel="cta">CTA Banner</a>
+    <div class="sidebar__label">Info</div>
+    <a class="sidebar__item" data-panel="contact">Contact & Hours</a>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <div class="status-bar">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Connecting to Supabase…</span>
     </div>
-  </div>
+
+    <!-- ── HERO ── -->
+    <div class="panel active" id="panel-hero">
+      <div class="panel__title">Hero Section</div>
+      <div class="panel__subtitle">The first thing visitors see on the homepage.</div>
+      <div class="form-section">
+        <div class="form-section__title">Hero Copy</div>
+        <div class="field">
+          <label>Tagline (below the big heading)</label>
+          <textarea id="hero_tagline">Atlas Strength Club is a private strength training community focused on coaching, progression, and belonging.</textarea>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection(['hero_tagline'])">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 2L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save Hero
+      </button>
+    </div>
+
+    <!-- ── WHY ATLAS ── -->
+    <div class="panel" id="panel-why">
+      <div class="panel__title">Why Atlas</div>
+      <div class="panel__subtitle">The three feature cards below the hero.</div>
+      <div class="form-section">
+        <div class="form-section__title">Section Heading</div>
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="why_title" value="More than a gym. Built like a club.">
+        </div>
+        <div class="field">
+          <label>Subtitle</label>
+          <input type="text" id="why_subtitle" value="Most gyms are built around volume. Atlas is built around people.">
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section__title">Card 1</div>
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="why_card1_title" value="Goal-First Coaching">
+        </div>
+        <div class="field">
+          <label>Body</label>
+          <textarea id="why_card1_text">Every member has different goals, training history, and experience. That's why our coaching is built around the individual — with real structure, guidance, and progression from day one.</textarea>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section__title">Card 2</div>
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="why_card2_title" value="Real Community">
+        </div>
+        <div class="field">
+          <label>Body</label>
+          <textarea id="why_card2_text">We celebrate progress, train together, and create an environment where members genuinely feel welcomed — whether they're beginners or experienced lifters.</textarea>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section__title">Card 3</div>
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="why_card3_title" value="Intentional Progress">
+        </div>
+        <div class="field">
+          <label>Body</label>
+          <textarea id="why_card3_text">Real progress comes from consistency and structure — not random workouts. Our systems help members train with purpose and see meaningful long-term results.</textarea>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection(['why_title','why_subtitle','why_card1_title','why_card1_text','why_card2_title','why_card2_text','why_card3_title','why_card3_text'])">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 2L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save Why Atlas
+      </button>
+    </div>
+
+    <!-- ── MEMBERSHIP ── -->
+    <div class="panel" id="panel-membership">
+      <div class="panel__title">Memberships</div>
+      <div class="panel__subtitle">Prices and descriptions for each membership option.</div>
+
+      <div class="form-section">
+        <div class="form-section__title">Coaching Membership</div>
+        <div class="field field--price">
+          <label>Weekly price ($ number only)</label>
+          <input type="text" id="mem1_price" value="99">
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="mem1_desc">Individualised programming, semi-private coaching, technique guidance, and ongoing accountability within a private strength-focused community. Designed for members who want expert support, structure, and long-term progress without the cost of multiple private PT sessions each week.</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Online Coaching</div>
+        <div class="field field--price">
+          <label>Weekly price ($ number only)</label>
+          <input type="text" id="mem2_price" value="69">
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="mem2_desc">Personalised programming and remote coaching with the same attention to detail, structure, and accountability we provide inside Atlas — wherever you train.</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Club Membership</div>
+        <div class="field field--price">
+          <label>Weekly price ($ number only)</label>
+          <input type="text" id="mem3_price" value="39">
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="mem3_desc">Designed for people who want a more intentional training environment without the overcrowding and anonymity of commercial gyms.</textarea>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="saveSection(['mem1_price','mem1_desc','mem2_price','mem2_desc','mem3_price','mem3_desc'])">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 2L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save Memberships
+      </button>
+    </div>
+
+    <!-- ── COACHES ── -->
+    <div class="panel" id="panel-coaches">
+      <div class="panel__title">Coaches</div>
+      <div class="panel__subtitle">Names, specialties, and bios shown on the homepage.</div>
+
+      <div class="form-section">
+        <div class="form-section__title">Amer Brown</div>
+        <div class="field--row">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" id="coach_amer_name" value="Amer Brown">
+          </div>
+          <div class="field">
+            <label>Specialty</label>
+            <input type="text" id="coach_amer_specialty" value="Strength & Powerlifting">
+          </div>
+        </div>
+        <div class="field">
+          <label>Bio</label>
+          <textarea id="coach_amer_bio">Over 10 years helping people build real, sustainable strength. Amer's approach is built around the individual — understanding your goals, your history, and designing a path that actually works for you long-term.</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Tom Holloway</div>
+        <div class="field--row">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" id="coach_tom_name" value="Tom Holloway">
+          </div>
+          <div class="field">
+            <label>Specialty</label>
+            <input type="text" id="coach_tom_specialty" value="Olympic Weightlifting & Strength">
+          </div>
+        </div>
+        <div class="field">
+          <label>Bio</label>
+          <textarea id="coach_tom_bio">A Masters-qualified coach with a deep background in sports science and Olympic lifting. Tom brings structure and precision to every program — helping members move better, get stronger, and stay consistent.</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Tait Brown</div>
+        <div class="field--row">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" id="coach_tait_name" value="Tait Brown">
+          </div>
+          <div class="field">
+            <label>Specialty</label>
+            <input type="text" id="coach_tait_specialty" value="Mobility & Recovery">
+          </div>
+        </div>
+        <div class="field">
+          <label>Bio</label>
+          <textarea id="coach_tait_bio">An accredited Exercise Physiologist with a background in Olympic lifting. Tait specialises in helping members train around injury, improve movement quality, and build the kind of body that holds up over time.</textarea>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="saveSection(['coach_amer_name','coach_amer_specialty','coach_amer_bio','coach_tom_name','coach_tom_specialty','coach_tom_bio','coach_tait_name','coach_tait_specialty','coach_tait_bio'])">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 2L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save Coaches
+      </button>
+    </div>
+
+    <!-- ── CTA ── -->
+    <div class="panel" id="panel-cta">
+      <div class="panel__title">CTA Banner</div>
+      <div class="panel__subtitle">The "Try the club" section near the bottom of the homepage.</div>
+      <div class="form-section">
+        <div class="form-section__title">Call to Action</div>
+        <div class="field">
+          <label>Heading</label>
+          <input type="text" id="cta_title" value="Try the club.">
+        </div>
+        <div class="field">
+          <label>Body text</label>
+          <textarea id="cta_text">Spend a week inside Atlas and experience a private strength-focused environment built around coaching, community, and long-term progress.</textarea>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection(['cta_title','cta_text'])">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 2L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save CTA
+      </button>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="panel" id="panel-contact">
+      <div class="panel__title">Contact & Hours</div>
+      <div class="panel__subtitle">Shown in the footer across all pages.</div>
+      <div class="form-section">
+        <div class="form-section__title">Details</div>
+        <div class="field">
+          <label>Address</label>
+          <input type="text" id="contact_address" placeholder="e.g. 123 Oxford St, Bondi Junction NSW 2022">
+        </div>
+        <div class="field">
+          <label>Phone number</label>
+          <input type="text" id="contact_phone" placeholder="e.g. (02) 1234 5678">
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section__title">Opening Hours</div>
+        <div class="field">
+          <label>Weekday hours</label>
+          <input type="text" id="contact_hours_weekday" value="Mon–Fri: 6am–10pm">
+        </div>
+        <div class="field">
+          <label>Weekend hours</label>
+          <input type="text" id="contact_hours_weekend" value="Sat–Sun: 7am–8pm">
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection(['contact_address','contact_phone','contact_hours_weekday','contact_hours_weekend'])">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 2L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save Contact
+      </button>
+    </div>
+
+  </main>
 </div>
 
-<div class="toast" id="toast"></div>
-
-<!-- ── App ────────────────────────────────────────── -->
-<div id="app">
-
-  <div class="topbar">
-    <div class="topbar__left">
-      <div class="topbar__logo">ATL<span>A</span>S</div>
-      <div class="topbar__badge">Admin</div>
-    </div>
-    <div class="topbar__right">
-      <span class="topbar__time" id="clock"></span>
-      <button class="btn-sm btn-gold-sm" onclick="loadAll()">↻ Refresh</button>
-      <button class="btn-sm btn-ghost-sm" onclick="signOut()">Sign Out</button>
-    </div>
-  </div>
-
-  <div class="main">
-
-    <!-- Stats -->
-    <div class="stats">
-      <div class="stat">
-        <div class="stat__label">Contact Enquiries</div>
-        <div class="stat__value" id="stat-contacts">–</div>
-        <div class="stat__sub" id="stat-contacts-new"></div>
-      </div>
-      <div class="stat">
-        <div class="stat__label">Trial Requests</div>
-        <div class="stat__value" id="stat-trials">–</div>
-        <div class="stat__sub" id="stat-trials-new"></div>
-      </div>
-      <div class="stat">
-        <div class="stat__label">Awaiting Action</div>
-        <div class="stat__value" id="stat-pending" style="color:var(--red);">–</div>
-        <div class="stat__sub">status: new</div>
-      </div>
-      <div class="stat">
-        <div class="stat__label">Members</div>
-        <div class="stat__value" id="stat-members">–</div>
-        <div class="stat__sub" id="stat-members-sub">invited</div>
-      </div>
-      <div class="stat">
-        <div class="stat__label">Last Submission</div>
-        <div class="stat__value" id="stat-last" style="font-size:1rem;padding-top:6px;">–</div>
-        <div class="stat__sub" id="stat-last-sub"></div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabbar">
-      <button class="tab active" onclick="switchTab('contacts', this)">
-        Contacts <span class="tab__count" id="tab-count-contacts">0</span>
-      </button>
-      <button class="tab" onclick="switchTab('trials', this)">
-        Trial Requests <span class="tab__count" id="tab-count-trials">0</span>
-      </button>
-      <button class="tab" onclick="switchTab('members', this)">
-        Members
-      </button>
-    </div>
-
-    <!-- Contacts Panel -->
-    <div class="panel active" id="panel-contacts">
-      <div class="toolbar">
-        <div class="toolbar__group">
-          <div class="search">
-            <span class="search__icon">🔍</span>
-            <input class="search__input" type="text" placeholder="Search name, email, subject…" oninput="filterTable('contacts-table', this.value)" />
-          </div>
-          <div class="status-filters" id="contacts-status-filters">
-            <button class="status-pill active" data-status="all" onclick="setStatusFilter('contacts','all',this)">All</button>
-            <button class="status-pill" data-status="new" onclick="setStatusFilter('contacts','new',this)">New</button>
-            <button class="status-pill" data-status="contacted" onclick="setStatusFilter('contacts','contacted',this)">Contacted</button>
-            <button class="status-pill" data-status="resolved" onclick="setStatusFilter('contacts','resolved',this)">Resolved</button>
-          </div>
-        </div>
-        <button class="btn-sm btn-ghost-sm" onclick="exportCSV('contacts')">↓ Export CSV</button>
-      </div>
-      <div id="contacts-loading" class="loader"><div class="spinner"></div><span>Loading…</span></div>
-      <div id="contacts-empty"  class="empty" style="display:none;">No contact submissions yet.</div>
-      <div id="contacts-wrap"   class="tbl-wrap" style="display:none;">
-        <table id="contacts-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Subject</th>
-              <th>Message</th>
-              <th>Status</th>
-              <th>Received</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="contacts-body"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Trials Panel -->
-    <div class="panel" id="panel-trials">
-      <div class="toolbar">
-        <div class="toolbar__group">
-          <div class="search">
-            <span class="search__icon">🔍</span>
-            <input class="search__input" type="text" placeholder="Search name, email, goal…" oninput="filterTable('trials-table', this.value)" />
-          </div>
-          <div class="status-filters" id="trials-status-filters">
-            <button class="status-pill active" data-status="all" onclick="setStatusFilter('trials','all',this)">All</button>
-            <button class="status-pill" data-status="new" onclick="setStatusFilter('trials','new',this)">New</button>
-            <button class="status-pill" data-status="contacted" onclick="setStatusFilter('trials','contacted',this)">Contacted</button>
-            <button class="status-pill" data-status="resolved" onclick="setStatusFilter('trials','resolved',this)">Resolved</button>
-          </div>
-        </div>
-        <button class="btn-sm btn-ghost-sm" onclick="exportCSV('trials')">↓ Export CSV</button>
-      </div>
-      <div id="trials-loading" class="loader"><div class="spinner"></div><span>Loading…</span></div>
-      <div id="trials-empty"  class="empty" style="display:none;">No trial requests yet.</div>
-      <div id="trials-wrap"   class="tbl-wrap" style="display:none;">
-        <table id="trials-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Goal</th>
-              <th>Preferred Time</th>
-              <th>Status</th>
-              <th>Received</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="trials-body"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Members Panel -->
-    <div class="panel" id="panel-members">
-
-      <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;">Members</div>
-
-      <!-- Invite / Add Member card -->
-      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;">
-        <div style="font-size:1rem;font-weight:600;margin-bottom:4px;">Add &amp; Authenticate Member</div>
-        <div style="font-size:0.78rem;color:var(--text-2);margin-bottom:20px;line-height:1.6;">Fill in their details, then click Authenticate. They'll be saved to your member list and receive a setup link by email.</div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-          <div>
-            <label style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:6px;">First Name</label>
-            <input id="invite-first" type="text" placeholder="Jane"
-              style="width:100%;padding:10px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;box-sizing:border-box;"
-              onfocus="this.style.borderColor='var(--border-hi)'" onblur="this.style.borderColor='var(--border)'" />
-          </div>
-          <div>
-            <label style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:6px;">Last Name</label>
-            <input id="invite-last" type="text" placeholder="Smith"
-              style="width:100%;padding:10px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;box-sizing:border-box;"
-              onfocus="this.style.borderColor='var(--border-hi)'" onblur="this.style.borderColor='var(--border)'" />
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px;">
-          <div>
-            <label style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:6px;">Email *</label>
-            <input id="invite-email" type="email" placeholder="member@email.com"
-              style="width:100%;padding:10px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;box-sizing:border-box;"
-              onfocus="this.style.borderColor='var(--border-hi)'" onblur="this.style.borderColor='var(--border)'"
-              onkeydown="if(event.key==='Enter')inviteMember()" />
-          </div>
-          <div>
-            <label style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:6px;">Member ID</label>
-            <input id="invite-memberid" type="text" placeholder="e.g. ATL-001"
-              style="width:100%;padding:10px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;box-sizing:border-box;"
-              onfocus="this.style.borderColor='var(--border-hi)'" onblur="this.style.borderColor='var(--border)'" />
-          </div>
-        </div>
-
-        <div style="margin-bottom:16px;">
-          <label style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:6px;">Plan / Notes</label>
-          <input id="invite-notes" type="text" placeholder="e.g. Full Coaching — fortnightly"
-            style="width:100%;padding:10px 13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;box-sizing:border-box;"
-            onfocus="this.style.borderColor='var(--border-hi)'" onblur="this.style.borderColor='var(--border)'" />
-        </div>
-
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-          <button id="invite-btn" class="btn-sm btn-gold-sm" style="padding:11px 22px;" onclick="inviteMember()">
-            Authenticate →
-          </button>
-          <div id="invite-result" style="font-size:0.78rem;min-height:20px;"></div>
-        </div>
-      </div>
-
-      <!-- Members Table -->
-      <div id="members-loading" style="color:var(--text-3);font-size:0.8rem;padding:12px 0;">Loading members…</div>
-      <div id="members-empty" style="display:none;color:var(--text-3);font-size:0.85rem;padding:12px 0;">No members yet. Add one above.</div>
-      <div id="members-wrap" style="display:none;">
-        <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;">
-          <input class="search__input" type="text" placeholder="Search name, email, ID…" oninput="filterTable('members-table', this.value)"
-            style="max-width:320px;" />
-        </div>
-        <div class="tbl-wrap" style="overflow-x:auto;">
-          <table id="members-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Member ID</th>
-                <th>Plan / Notes</th>
-                <th>Status</th>
-                <th>Invited</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /main -->
-</div><!-- /app -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-  // ── Config ────────────────────────────────────────────
-  const ADMIN_PASSWORD = 'maxisasickcunt';
-  const SUPABASE_URL   = 'https://vowecpavuxgqbuvthzlm.supabase.co';
-  const SUPABASE_KEY   = 'sb_publishable_w6Bk-wgdZW6XhUFV-J0i3w_7lLNVHvU';
+const SUPABASE_URL = 'https://vowecpavuxgqbuvthzlm.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_w6Bk-wgdZW6XhUFV-J0i3w_7lLNVHvU';
 
-  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  // ── Gate ──────────────────────────────────────────────
-  function checkPassword() {
-    const val = document.getElementById('gate-input').value;
-    if (val === ADMIN_PASSWORD) {
-      sessionStorage.setItem('atlas_admin', '1');
-      showApp();
-    } else {
-      document.getElementById('gate-error').textContent = 'Incorrect password.';
-      document.getElementById('gate-input').value = '';
-    }
-  }
-  document.getElementById('gate-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
-
-  function showApp() {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    loadAll();
-    startClock();
-  }
-  function signOut() { sessionStorage.removeItem('atlas_admin'); location.reload(); }
-  if (sessionStorage.getItem('atlas_admin') === '1') showApp();
-
-  // ── Clock ─────────────────────────────────────────────
-  function startClock() {
-    const el = document.getElementById('clock');
-    function tick() { el.textContent = new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
-    tick(); setInterval(tick, 1000);
-  }
-
-  // ── Tabs ──────────────────────────────────────────────
-  function switchTab(name, el) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+// ── Sidebar navigation ──────────────────────────────────────────
+document.querySelectorAll('.sidebar__item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.sidebar__item').forEach(i => i.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('panel-' + name).classList.add('active');
-  }
+    item.classList.add('active');
+    document.getElementById('panel-' + item.dataset.panel).classList.add('active');
+  });
+});
 
-  // ── State ─────────────────────────────────────────────
-  let allContacts = [];
-  let allTrials   = [];
-  let allMembers  = [];
-  let statusFilters = { contacts: 'all', trials: 'all' };
+// ── Toast ───────────────────────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  t.className = 'toast ' + type;
+  m.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
 
-  // ── Toast ─────────────────────────────────────────────
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
-  }
+// ── Loading ─────────────────────────────────────────────────────
+function setLoading(on) {
+  document.getElementById('loadingOverlay').classList.toggle('hidden', !on);
+}
 
-  // ── Confirm modal ─────────────────────────────────────
-  function confirmAction(title, text, onConfirm) {
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-text').textContent = text;
-    const overlay = document.getElementById('modal-overlay');
-    overlay.classList.add('show');
-    const btn = document.getElementById('modal-confirm-btn');
-    const newBtn = btn.cloneNode(true);
-    btn.parentNode.replaceChild(newBtn, btn);
-    newBtn.addEventListener('click', () => { closeModal(); onConfirm(); });
-  }
-  function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
-
-  // ── Load all data ─────────────────────────────────────
-  async function loadAll() {
-    await Promise.all([loadContacts(), loadTrials(), loadMembers()]);
-    updateStats();
-  }
-
-  async function loadContacts() {
-    const { data, error } = await db.from('contact_submissions').select('*').order('created_at', { ascending: false });
-    const loading = document.getElementById('contacts-loading');
-    const empty   = document.getElementById('contacts-empty');
-    const wrap    = document.getElementById('contacts-wrap');
-    loading.style.display = 'none';
-
-    if (error || !data || data.length === 0) {
-      empty.style.display = 'block'; wrap.style.display = 'none';
-      allContacts = [];
-      document.getElementById('tab-count-contacts').textContent = '0';
-      return;
+// ── Supabase helpers ────────────────────────────────────────────
+async function sbFetch(path, opts = {}) {
+  const res = await fetch(SUPABASE_URL + path, {
+    ...opts,
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates',
+      ...(opts.headers || {})
     }
-    allContacts = data;
-    document.getElementById('tab-count-contacts').textContent = data.length;
-    empty.style.display = 'none'; wrap.style.display = 'block';
-    renderContacts();
-  }
+  });
+  return res;
+}
 
-  async function loadTrials() {
-    const { data, error } = await db.from('trial_submissions').select('*').order('created_at', { ascending: false });
-    const loading = document.getElementById('trials-loading');
-    const empty   = document.getElementById('trials-empty');
-    const wrap    = document.getElementById('trials-wrap');
-    loading.style.display = 'none';
-
-    if (error || !data || data.length === 0) {
-      empty.style.display = 'block'; wrap.style.display = 'none';
-      allTrials = [];
-      document.getElementById('tab-count-trials').textContent = '0';
-      return;
-    }
-    allTrials = data;
-    document.getElementById('tab-count-trials').textContent = data.length;
-    empty.style.display = 'none'; wrap.style.display = 'block';
-    renderTrials();
-  }
-
-  async function loadMembers() {
-    const { data, error } = await db.from('members').select('*').order('invited_at', { ascending: false });
-    const loading = document.getElementById('members-loading');
-    const empty   = document.getElementById('members-empty');
-    const wrap    = document.getElementById('members-wrap');
-    loading.style.display = 'none';
-
-    if (error || !data || data.length === 0) {
-      empty.style.display = 'block'; wrap.style.display = 'none';
-      allMembers = [];
-      document.getElementById('stat-members').textContent = '0';
-      return;
-    }
-    allMembers = data;
-    document.getElementById('stat-members').textContent = data.length;
-    document.getElementById('stat-members-sub').textContent = data.filter(m => m.status === 'active').length + ' active';
-    empty.style.display = 'none'; wrap.style.display = 'block';
-    renderMembers();
-  }
-
-  // ── Status filter pills ───────────────────────────────
-  function setStatusFilter(type, status, btn) {
-    statusFilters[type] = status;
-    btn.parentElement.querySelectorAll('.status-pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    if (type === 'contacts') renderContacts();
-    if (type === 'trials') renderTrials();
-  }
-
-  // ── Stats ─────────────────────────────────────────────
-  function updateStats() {
-    const cutoff24h = new Date(Date.now() - 86400000);
-    const contactsNew = allContacts.filter(r => new Date(r.created_at) > cutoff24h).length;
-    const trialsNew   = allTrials.filter(r => new Date(r.created_at) > cutoff24h).length;
-    const pending = [...allContacts, ...allTrials].filter(r => (r.status || 'new') === 'new').length;
-
-    document.getElementById('stat-contacts').textContent = allContacts.length;
-    document.getElementById('stat-contacts-new').textContent = contactsNew > 0 ? `+${contactsNew} in last 24h` : 'none in last 24h';
-    document.getElementById('stat-trials').textContent = allTrials.length;
-    document.getElementById('stat-trials-new').textContent = trialsNew > 0 ? `+${trialsNew} in last 24h` : 'none in last 24h';
-    document.getElementById('stat-pending').textContent = pending;
-    document.getElementById('stat-members').textContent = allMembers.length;
-    document.getElementById('stat-members-sub').textContent = allMembers.filter(m => m.status === 'active').length + ' active';
-
-    const allRows = [...allContacts, ...allTrials];
-    if (allRows.length) {
-      const latest = allRows.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))[0];
-      const d = new Date(latest.created_at);
-      document.getElementById('stat-last').textContent = d.toLocaleDateString('en-AU', { day:'numeric', month:'short' });
-      document.getElementById('stat-last-sub').textContent = d.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit' });
-    }
-  }
-
-  // ── Update status (contacts / trials) ─────────────────
-  async function updateStatus(table, id, newStatus, selectEl) {
-    const { error } = await db.from(table).update({ status: newStatus }).eq('id', id);
-    if (error) { showToast('Error updating status'); return; }
-    selectEl.className = 'status-select st-' + newStatus;
-    const list = table === 'contact_submissions' ? allContacts : allTrials;
-    const row = list.find(r => r.id === id);
-    if (row) row.status = newStatus;
-    updateStats();
-    showToast('Status updated');
-  }
-
-  // ── Save notes ─────────────────────────────────────────
-  async function saveNotes(table, id, textareaEl, btnEl) {
-    const notes = textareaEl.value.trim();
-    btnEl.textContent = 'Saving…'; btnEl.disabled = true;
-    const { error } = await db.from(table).update({ admin_notes: notes }).eq('id', id);
-    btnEl.disabled = false;
-    if (error) { btnEl.textContent = 'Error'; showToast('Failed to save notes'); return; }
-    btnEl.textContent = '✓ Saved';
-    const list = table === 'contact_submissions' ? allContacts : (table === 'trial_submissions' ? allTrials : allMembers);
-    const row = list.find(r => r.id === id);
-    if (row) row.admin_notes = notes;
-    setTimeout(() => { btnEl.textContent = 'Save Notes'; }, 1500);
-    showToast('Notes saved');
-  }
-
-  // ── Delete row ─────────────────────────────────────────
-  function deleteRow(table, id, label, reload) {
-    confirmAction('Delete this entry?', `This will permanently remove ${label} from the database. This cannot be undone.`, async () => {
-      const { error } = await db.from(table).delete().eq('id', id);
-      if (error) { showToast('Error deleting'); return; }
-      showToast('Deleted');
-      reload();
+// ── Load existing content into fields ───────────────────────────
+async function loadContent() {
+  try {
+    const res = await sbFetch('/rest/v1/site_content?select=key,value');
+    if (!res.ok) throw new Error('fetch failed');
+    const rows = await res.json();
+    rows.forEach(({ key, value }) => {
+      const el = document.getElementById(key);
+      if (el && value) el.value = value;
     });
+    document.getElementById('statusDot').classList.remove('disconnected');
+    document.getElementById('statusText').textContent = 'Connected to Supabase — changes save live to the site';
+  } catch (e) {
+    document.getElementById('statusDot').classList.add('disconnected');
+    document.getElementById('statusText').textContent = 'Could not connect — check Supabase table setup';
   }
+}
 
-  // ── Render contacts ───────────────────────────────────
-  function renderContacts() {
-    const filter = statusFilters.contacts;
-    const rows = filter === 'all' ? allContacts : allContacts.filter(r => (r.status || 'new') === filter);
-    const tbody = document.getElementById('contacts-body');
-    tbody.innerHTML = '';
-
-    if (!rows.length) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">No entries match this filter.</td></tr>`;
-      return;
+// ── Save a group of fields ──────────────────────────────────────
+async function saveSection(keys) {
+  setLoading(true);
+  try {
+    const rows = keys.map(k => ({
+      key: k,
+      value: (document.getElementById(k)?.value || '').trim()
+    }));
+    const res = await sbFetch('/rest/v1/site_content', {
+      method: 'POST',
+      headers: { 'Prefer': 'resolution=merge-duplicates' },
+      body: JSON.stringify(rows)
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err);
     }
-
-    rows.forEach((r, i) => {
-      const isNew = isRecent(r.created_at);
-      const name  = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
-      const id    = `cr-${r.id}`;
-      const status = r.status || 'new';
-
-      const tr = document.createElement('tr');
-      tr.dataset.search = [name, r.email, r.subject, r.message, r.phone].filter(Boolean).join(' ').toLowerCase();
-      tr.innerHTML = `
-        <td class="cell-primary">${escHtml(name)}${isNew ? ' <span class="badge badge-new">New</span>' : ''}</td>
-        <td class="cell-mono">${escHtml(r.email || '—')}<button class="copy-btn" onclick="copyText('${escAttr(r.email || '')}', this)" title="Copy">⎘</button></td>
-        <td>${r.subject ? `<span class="badge badge-blue">${escHtml(r.subject)}</span>` : '<span class="cell-muted">—</span>'}</td>
-        <td class="msg-cell">${escHtml(r.message || '—')}</td>
-        <td>
-          <select class="status-select st-${status}" onchange="updateStatus('contact_submissions', '${r.id}', this.value, this)">
-            <option value="new" ${status==='new'?'selected':''}>New</option>
-            <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
-            <option value="resolved" ${status==='resolved'?'selected':''}>Resolved</option>
-          </select>
-        </td>
-        <td class="cell-muted" style="white-space:nowrap;">${fmtDate(r.created_at)}</td>
-        <td class="cell-actions">
-          <button class="row-toggle" onclick="toggleExpand('${id}')" id="toggle-${id}">▸ More</button>
-          <button class="icon-btn danger" onclick="deleteRow('contact_submissions','${r.id}','this enquiry',loadContacts)" title="Delete">✕</button>
-        </td>
-      `;
-
-      const expTr = document.createElement('tr');
-      expTr.className = 'expand-row';
-      expTr.id = id;
-      expTr.innerHTML = `
-        <td class="expand-cell" colspan="7">
-          <div class="expand-inner">
-            <div class="expand-grid">
-              <div class="expand-field"><strong>Full Name</strong>${escHtml(name)}</div>
-              <div class="expand-field"><strong>Email</strong>${escHtml(r.email || '—')}</div>
-              <div class="expand-field"><strong>Phone</strong>${escHtml(r.phone || 'Not provided')}</div>
-              <div class="expand-field"><strong>Subject</strong>${escHtml(r.subject || '—')}</div>
-              <div class="expand-field"><strong>Received</strong>${fmtDateFull(r.created_at)}</div>
-            </div>
-            <div style="margin-top:14px;"><strong>Message</strong>${escHtml(r.message || 'No message provided.')}</div>
-            <div class="notes-block">
-              <strong>Internal Notes</strong>
-              <textarea class="notes-textarea" id="notes-${id}" placeholder="Add a private note — call outcome, follow-up needed, etc.">${escHtml(r.admin_notes || '')}</textarea>
-              <button class="btn-sm btn-gold-sm" style="margin-top:8px;" onclick="saveNotes('contact_submissions','${r.id}', document.getElementById('notes-${id}'), this)">Save Notes</button>
-            </div>
-          </div>
-        </td>
-      `;
-
-      tbody.appendChild(tr);
-      tbody.appendChild(expTr);
-    });
+    showToast('Saved — changes are now live on the site', 'success');
+  } catch (e) {
+    console.error(e);
+    showToast('Save failed: ' + e.message, 'error');
+  } finally {
+    setLoading(false);
   }
+}
 
-  // ── Render trials ─────────────────────────────────────
-  function renderTrials() {
-    const filter = statusFilters.trials;
-    const rows = filter === 'all' ? allTrials : allTrials.filter(r => (r.status || 'new') === filter);
-    const tbody = document.getElementById('trials-body');
-    tbody.innerHTML = '';
-
-    if (!rows.length) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">No entries match this filter.</td></tr>`;
-      return;
-    }
-
-    rows.forEach((r, i) => {
-      const isNew = isRecent(r.created_at);
-      const name  = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
-      const id    = `tr-${r.id}`;
-      const status = r.status || 'new';
-
-      const tr = document.createElement('tr');
-      tr.dataset.search = [name, r.email, r.goal, r.preferred_time, r.phone].filter(Boolean).join(' ').toLowerCase();
-      tr.innerHTML = `
-        <td class="cell-primary">${escHtml(name)}${isNew ? ' <span class="badge badge-new">New</span>' : ''}</td>
-        <td class="cell-mono">${escHtml(r.email || '—')}<button class="copy-btn" onclick="copyText('${escAttr(r.email || '')}', this)" title="Copy">⎘</button></td>
-        <td>${r.goal ? `<span class="badge badge-gold">${escHtml(r.goal)}</span>` : '<span class="cell-muted">—</span>'}</td>
-        <td class="cell-muted">${escHtml(r.preferred_time || '—')}</td>
-        <td>
-          <select class="status-select st-${status}" onchange="updateStatus('trial_submissions', '${r.id}', this.value, this)">
-            <option value="new" ${status==='new'?'selected':''}>New</option>
-            <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
-            <option value="resolved" ${status==='resolved'?'selected':''}>Resolved</option>
-          </select>
-        </td>
-        <td class="cell-muted" style="white-space:nowrap;">${fmtDate(r.created_at)}</td>
-        <td class="cell-actions">
-          <button class="row-toggle" onclick="toggleExpand('${id}')" id="toggle-${id}">▸ More</button>
-          <button class="icon-btn danger" onclick="deleteRow('trial_submissions','${r.id}','this trial request',loadTrials)" title="Delete">✕</button>
-        </td>
-      `;
-
-      const expTr = document.createElement('tr');
-      expTr.className = 'expand-row';
-      expTr.id = id;
-      expTr.innerHTML = `
-        <td class="expand-cell" colspan="7">
-          <div class="expand-inner">
-            <div class="expand-grid">
-              <div class="expand-field"><strong>Full Name</strong>${escHtml(name)}</div>
-              <div class="expand-field"><strong>Email</strong>${escHtml(r.email || '—')}</div>
-              <div class="expand-field"><strong>Phone</strong>${escHtml(r.phone || 'Not provided')}</div>
-              <div class="expand-field"><strong>Goal</strong>${escHtml(r.goal || '—')}</div>
-              <div class="expand-field"><strong>Preferred Time</strong>${escHtml(r.preferred_time || '—')}</div>
-              <div class="expand-field"><strong>Received</strong>${fmtDateFull(r.created_at)}</div>
-            </div>
-            ${r.message ? `<div style="margin-top:14px;"><strong>Notes from form</strong>${escHtml(r.message)}</div>` : ''}
-            <div class="notes-block">
-              <strong>Internal Notes</strong>
-              <textarea class="notes-textarea" id="notes-${id}" placeholder="Add a private note — call outcome, follow-up needed, etc.">${escHtml(r.admin_notes || '')}</textarea>
-              <button class="btn-sm btn-gold-sm" style="margin-top:8px;" onclick="saveNotes('trial_submissions','${r.id}', document.getElementById('notes-${id}'), this)">Save Notes</button>
-            </div>
-          </div>
-        </td>
-      `;
-
-      tbody.appendChild(tr);
-      tbody.appendChild(expTr);
-    });
-  }
-
-  // ── Render members ─────────────────────────────────────
-  function renderMembers() {
-    const tbody = document.querySelector('#members-table tbody');
-    tbody.innerHTML = allMembers.map(r => {
-      const name = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
-      const date = r.invited_at ? new Date(r.invited_at).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }) : '—';
-      const status = r.status || 'invited';
-      return `<tr data-member-id="${r.id}">
-        <td>
-          <input class="inline-input" value="${escAttr(name)}" id="m-name-${r.id}" />
-        </td>
-        <td class="cell-mono">${escHtml(r.email || '')}</td>
-        <td><input class="inline-input" value="${escAttr(r.member_id || '')}" id="m-mid-${r.id}" style="max-width:110px;" /></td>
-        <td><input class="inline-input" value="${escAttr(r.notes || '')}" id="m-notes-${r.id}" /></td>
-        <td>
-          <select class="status-select ${status==='active'?'st-resolved':'st-new'}" id="m-status-${r.id}">
-            <option value="invited" ${status==='invited'?'selected':''}>Invited</option>
-            <option value="active" ${status==='active'?'selected':''}>Active</option>
-            <option value="paused" ${status==='paused'?'selected':''}>Paused</option>
-            <option value="cancelled" ${status==='cancelled'?'selected':''}>Cancelled</option>
-          </select>
-        </td>
-        <td style="color:var(--text-3);font-size:0.75rem;">${date}</td>
-        <td class="cell-actions">
-          <button class="icon-btn" onclick="saveMemberEdits('${r.id}', this)" title="Save changes">💾</button>
-          <button class="icon-btn" onclick="resendInvite('${escAttr(r.email)}', this)" title="Resend invite">✉</button>
-          <button class="icon-btn danger" onclick="deleteRow('members','${r.id}','this member',loadMembers)" title="Delete">✕</button>
-        </td>
-      </tr>`;
-    }).join('');
-  }
-
-  // ── Save member inline edits ───────────────────────────
-  async function saveMemberEdits(id, btn) {
-    const nameInput = document.getElementById(`m-name-${id}`);
-    const fullName  = nameInput.value.trim();
-    const parts     = fullName.split(' ');
-    const firstName = parts.shift() || null;
-    const lastName  = parts.join(' ') || null;
-    const memberId  = document.getElementById(`m-mid-${id}`).value.trim() || null;
-    const notes     = document.getElementById(`m-notes-${id}`).value.trim() || null;
-    const status    = document.getElementById(`m-status-${id}`).value;
-
-    const orig = btn.textContent;
-    btn.textContent = '…'; btn.disabled = true;
-
-    const { error } = await db.from('members').update({
-      first_name: firstName, last_name: lastName, member_id: memberId, notes, status
-    }).eq('id', id);
-
-    btn.disabled = false;
-    btn.textContent = error ? '⚠' : '✓';
-    if (!error) {
-      showToast('Member updated');
-      const m = allMembers.find(x => x.id === id);
-      if (m) Object.assign(m, { first_name: firstName, last_name: lastName, member_id: memberId, notes, status });
-      updateStats();
-    } else {
-      showToast('Error updating member');
-    }
-    setTimeout(() => { btn.textContent = orig; }, 1500);
-  }
-
-  async function resendInvite(email, btn) {
-    btn.textContent = '…'; btn.disabled = true;
-    const { error } = await db.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: false, emailRedirectTo: 'https://hilarious-tomato-9k7jpk5fbm.edgeone.app/login.html' }
-    });
-    btn.disabled = false;
-    btn.textContent = error ? '⚠' : '✓';
-    showToast(error ? 'Error sending invite' : 'Invite sent');
-    setTimeout(() => { btn.textContent = '✉'; }, 2000);
-  }
-
-  // ── Expand/collapse ───────────────────────────────────
-  function toggleExpand(id) {
-    const row = document.getElementById(id);
-    const btn = document.getElementById('toggle-' + id);
-    const open = row.classList.toggle('open');
-    btn.textContent = open ? '▾ Less' : '▸ More';
-  }
-
-  // ── Search filter ─────────────────────────────────────
-  function filterTable(tableId, query) {
-    const q = query.toLowerCase();
-    const table = document.getElementById(tableId);
-    if (!table) return;
-    table.querySelectorAll('tbody tr:not(.expand-row)').forEach(tr => {
-      const match = !q || (tr.dataset.search || '').includes(q) || tr.textContent.toLowerCase().includes(q);
-      tr.style.display = match ? '' : 'none';
-      const nextTr = tr.nextElementSibling;
-      if (nextTr && nextTr.classList.contains('expand-row')) {
-        if (!match) nextTr.classList.remove('open');
-        nextTr.style.display = match ? '' : 'none';
-      }
-    });
-  }
-
-  // ── Copy to clipboard ─────────────────────────────────
-  function copyText(text, btn) {
-    navigator.clipboard.writeText(text).then(() => {
-      const orig = btn.textContent;
-      btn.textContent = '✓'; btn.style.color = '#4caf78';
-      setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
-    });
-  }
-
-  // ── Export CSV ────────────────────────────────────────
-  function exportCSV(type) {
-    const rows = type === 'contacts' ? allContacts : allTrials;
-    if (!rows.length) return;
-    const keys = Object.keys(rows[0]);
-    const csv  = [keys.join(','), ...rows.map(r => keys.map(k => JSON.stringify(r[k] ?? '')).join(','))].join('\n');
-    const a = document.createElement('a');
-    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    a.download = `atlas-${type}-${new Date().toISOString().slice(0,10)}.csv`;
-    a.click();
-  }
-
-  // ── Helpers ───────────────────────────────────────────
-  function isRecent(dateStr) { return dateStr && (Date.now() - new Date(dateStr).getTime()) < 86400000; }
-  function fmtDate(dateStr) { if (!dateStr) return '—'; return new Date(dateStr).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }); }
-  function fmtDateFull(dateStr) { if (!dateStr) return '—'; return new Date(dateStr).toLocaleString('en-AU', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
-  function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-  function escAttr(str) { return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
-  // ── Invite / Authenticate member ──────────────────────
-  async function inviteMember() {
-    const emailInput    = document.getElementById('invite-email');
-    const firstInput    = document.getElementById('invite-first');
-    const lastInput     = document.getElementById('invite-last');
-    const memberIdInput = document.getElementById('invite-memberid');
-    const notesInput    = document.getElementById('invite-notes');
-    const resultEl      = document.getElementById('invite-result');
-    const btn           = document.getElementById('invite-btn');
-
-    const email     = emailInput.value.trim();
-    const firstName = firstInput.value.trim();
-    const lastName  = lastInput.value.trim();
-    const memberId  = memberIdInput.value.trim();
-    const notes     = notesInput.value.trim();
-
-    if (!email || !email.includes('@')) {
-      resultEl.style.color = 'var(--red)';
-      resultEl.textContent = 'Please enter a valid email address.';
-      return;
-    }
-
-    btn.textContent = 'Sending…'; btn.disabled = true; resultEl.textContent = '';
-
-    const { error } = await db.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: true, emailRedirectTo: 'https://hilarious-tomato-9k7jpk5fbm.edgeone.app/login.html' }
-    });
-
-    if (error) {
-      resultEl.style.color = 'var(--red)';
-      resultEl.textContent = 'Error: ' + error.message;
-      btn.textContent = 'Authenticate →'; btn.disabled = false;
-      return;
-    }
-
-    await db.from('members').upsert([{
-      email, first_name: firstName || null, last_name: lastName || null,
-      member_id: memberId || null, notes: notes || null,
-      status: 'invited', invited_at: new Date().toISOString()
-    }], { onConflict: 'email' });
-
-    btn.textContent = 'Authenticate →'; btn.disabled = false;
-    resultEl.style.color = 'var(--green)';
-    resultEl.textContent = '✓ Access link sent to ' + email;
-
-    emailInput.value = ''; firstInput.value = ''; lastInput.value = '';
-    memberIdInput.value = ''; notesInput.value = '';
-
-    loadMembers();
-  }
+// ── Init ────────────────────────────────────────────────────────
+loadContent();
 </script>
 </body>
 </html>
