@@ -73,6 +73,10 @@
   });
 
   /* ── FORM HANDLING (generic) ─────────────────────── */
+  const _atlasDb = (typeof supabase !== 'undefined' && typeof SUPABASE_URL !== 'undefined')
+    ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
   document.querySelectorAll('[data-form]').forEach(form => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -80,26 +84,54 @@
       const btn = form.querySelector('[type="submit"]');
       const originalText = btn ? btn.textContent : '';
 
+      if (type === 'login') return; // handled by auth.js
+
       if (btn) {
         btn.disabled = true;
         btn.textContent = 'Sending…';
       }
 
-      // Simulate async — replace with actual Supabase / Formspree call
-      await new Promise(r => setTimeout(r, 1200));
+      const fd = new FormData(form);
+      const get = (key) => (fd.get(key) || '').toString().trim();
 
-      if (type === 'trial') {
-        showSuccess(form, 'Trial booked! We\'ll be in touch within a few hours.');
-      } else if (type === 'contact') {
-        showSuccess(form, 'Message sent. We\'ll reply within one business day.');
-      } else if (type === 'login') {
-        // Handled by auth.js
+      try {
+        if (!_atlasDb) throw new Error('Booking system unavailable — please try again shortly.');
+
+        if (type === 'trial') {
+          const { error } = await _atlasDb.from('trial_submissions').insert([{
+            first_name:      get('first-name'),
+            last_name:       get('last-name'),
+            email:           get('email'),
+            phone:           get('phone') || null,
+            goal:            get('goal') || null,
+            preferred_time:  get('preferred-time') || null,
+            message:         get('message') || null
+          }]);
+          if (error) throw error;
+          showSuccess(form, 'Trial booked! We\'ll be in touch within a few hours.');
+          form.reset();
+        } else if (type === 'contact') {
+          const { error } = await _atlasDb.from('contact_submissions').insert([{
+            first_name: get('first-name'),
+            last_name:  get('last-name'),
+            email:      get('email'),
+            phone:      get('phone') || null,
+            subject:    get('subject') || null,
+            message:    get('message')
+          }]);
+          if (error) throw error;
+          showSuccess(form, 'Message sent. We\'ll reply within one business day.');
+          form.reset();
+        } else {
+          showSuccess(form, 'Submitted successfully.');
+        }
+
+        if (btn) btn.textContent = '✓ Done';
+      } catch (err) {
+        console.error('Form submission error:', err);
+        showSuccess(form, 'Something went wrong sending that — please try again or contact us directly.');
         if (btn) { btn.disabled = false; btn.textContent = originalText; }
-      } else {
-        showSuccess(form, 'Submitted successfully.');
       }
-
-      if (btn && type !== 'login') btn.textContent = '✓ Done';
     });
   });
 
